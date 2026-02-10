@@ -1,9 +1,9 @@
 {
-  "name": "vuesax-alpha",
+  "name": "@yqb/my-vuesax",
   "version": "0.0.1",
   "description": "A Component Library for Vue 3",
   "keywords": [
-    "vuesax-alpha",
+    "my-vuesax",
     "vuesax",
     "component library",
     "ui framework",
