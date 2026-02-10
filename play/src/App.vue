@@ -1,5 +1,146 @@
 <template>
   <div class="play-container">
+    <!-- Select 演示区域 -->
+    <div class="demo-section select-demo">
+      <h2 class="section-title">Select 组件演示</h2>
+      <div class="select-grid">
+        <vs-select
+          v-model="selectValue1"
+          placeholder="选择一个选项"
+          label="基础选择器"
+          block
+          color="primary"
+        >
+          <vs-option value="option1" label="选项 1" />
+          <vs-option value="option2" label="选项 2" />
+          <vs-option value="option3" label="选项 3" />
+          <vs-option value="option4" label="选项 4" />
+        </vs-select>
+
+        <vs-select
+          v-model="selectValue2"
+          placeholder="可搜索选择器"
+          label="可搜索"
+          block
+          filter
+          color="success"
+        >
+          <vs-option value="apple" label="苹果" />
+          <vs-option value="banana" label="香蕉" />
+          <vs-option value="orange" label="橙子" />
+          <vs-option value="grape" label="葡萄" />
+          <vs-option value="watermelon" label="西瓜" />
+        </vs-select>
+
+        <vs-select
+          v-model="selectValue3"
+          placeholder="选择多个"
+          label="多选"
+          block
+          multiple
+          color="warn"
+        >
+          <vs-option value="tag1" label="标签 1" />
+          <vs-option value="tag2" label="标签 2" />
+          <vs-option value="tag3" label="标签 3" />
+          <vs-option value="tag4" label="标签 4" />
+          <vs-option value="tag5" label="标签 5" />
+        </vs-select>
+
+        <vs-select
+          v-model="selectValue4"
+          placeholder="带状态的选择器"
+          label="状态选择器"
+          block
+          state="danger"
+          color="danger"
+        >
+          <vs-option value="error1" label="错误选项 1" />
+          <vs-option value="error2" label="错误选项 2" />
+          <vs-option value="error3" label="错误选项 3" />
+        </vs-select>
+
+        <vs-select
+          v-model="selectValue5"
+          placeholder="选择状态"
+          label="自定义插槽选项"
+          block
+          color="primary"
+        >
+          <vs-option value="success">
+            <div style="display: flex; align-items: center; gap: 8px">
+              <icon-lucide-check-circle
+                style="width: 16px; height: 16px; color: #10b981"
+              />
+              <span>成功状态</span>
+            </div>
+          </vs-option>
+          <vs-option value="error">
+            <div style="display: flex; align-items: center; gap: 8px">
+              <icon-lucide-alert-circle
+                style="width: 16px; height: 16px; color: #ef4444"
+              />
+              <span>错误状态</span>
+            </div>
+          </vs-option>
+          <vs-option value="info">
+            <div style="display: flex; align-items: center; gap: 8px">
+              <icon-lucide-info
+                style="width: 16px; height: 16px; color: #3b82f6"
+              />
+              <span>信息状态</span>
+            </div>
+          </vs-option>
+        </vs-select>
+
+        <vs-select
+          v-model="selectValue6"
+          placeholder="选择你的角色"
+          block
+          color="success"
+        >
+          <template #label>
+            <div style="display: flex; align-items: center; gap: 6px">
+              <icon-lucide-user style="width: 12px; height: 12px" />
+              <span>自定义 Label 插槽</span>
+            </div>
+          </template>
+          <template #selected="{ value, label }">
+            <div style="display: flex; align-items: center; gap: 8px">
+              <span style="font-size: 16px">
+                {{
+                  value === 'developer'
+                    ? '👨‍💻'
+                    : value === 'designer'
+                    ? '🎨'
+                    : '📊'
+                }}
+              </span>
+              <span>{{ label }}</span>
+            </div>
+          </template>
+          <vs-option value="developer" label="开发者">
+            <div style="display: flex; align-items: center; gap: 8px">
+              <span style="font-size: 16px">👨‍💻</span>
+              <span>开发者</span>
+            </div>
+          </vs-option>
+          <vs-option value="designer" label="设计师">
+            <div style="display: flex; align-items: center; gap: 8px">
+              <span style="font-size: 16px">🎨</span>
+              <span>设计师</span>
+            </div>
+          </vs-option>
+          <vs-option value="manager" label="项目经理">
+            <div style="display: flex; align-items: center; gap: 8px">
+              <span style="font-size: 16px">📊</span>
+              <span>项目经理</span>
+            </div>
+          </vs-option>
+        </vs-select>
+      </div>
+    </div>
+
     <div class="demo-section">
       <h1 class="demo-title">现代异形弹窗</h1>
       <p class="demo-subtitle">Shape Innovation</p>
@@ -116,14 +257,106 @@
       @confirm="handleConfirm"
       @cancel="handleCancel"
     />
+
+    <!-- Edit Dialog 测试 -->
+    <div style="margin-top: 40px; text-align: center">
+      <h2
+        style="
+          font-size: 20px;
+          font-weight: 700;
+          color: #0f172a;
+          margin-bottom: 20px;
+        "
+      >
+        Edit Dialog 测试
+      </h2>
+      <div style="display: flex; gap: 16px; justify-content: center">
+        <vs-button color="primary" @click="openEditDialog('edit')">
+          打开编辑弹窗
+        </vs-button>
+        <vs-button color="success" @click="openEditDialog('create')">
+          打开创建弹窗
+        </vs-button>
+      </div>
+    </div>
+
+    <!-- Edit Dialog 组件 -->
+    <vs-edit-dialog
+      v-model="editDialogVisible"
+      :mode="editDialogMode"
+      :data="editDialogData"
+      width="600px"
+      await-confirm
+      @confirm="handleEditConfirm"
+      @cancel="handleEditCancel"
+    >
+      <template #default="{ data }">
+        <!-- 输入项 1 -->
+        <div class="edit-form-item">
+          <vs-input
+            v-model="data.name"
+            label="用户姓名"
+            placeholder="输入姓名"
+            label-float
+            block
+            input-style="border"
+            color="primary"
+          >
+            <template #icon>
+              <icon-lucide-user />
+            </template>
+          </vs-input>
+        </div>
+
+        <!-- 输入项 2 -->
+        <div class="edit-form-item">
+          <vs-input
+            v-model="data.email"
+            type="email"
+            label="电子邮件"
+            placeholder="email@example.com"
+            label-float
+            block
+            color="success"
+          >
+            <template #icon>
+              <icon-lucide-mail />
+            </template>
+          </vs-input>
+        </div>
+
+        <!-- 输入项 3 -->
+        <div class="edit-form-item">
+          <vs-input
+            v-model="data.position"
+            label="工作岗位"
+            placeholder="输入岗位"
+            label-float-nospace
+            block
+            color="warn"
+          >
+            <template #icon>
+              <icon-lucide-briefcase />
+            </template>
+          </vs-input>
+        </div>
+      </template>
+    </vs-edit-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { VsConfirmDialog } from '@vuesax-alpha/components/confirm-dialog'
+import { VsEditDialog } from '@vuesax-alpha/components/edit-dialog'
 import { VsLoadingFn } from '@vuesax-alpha/components/loading'
 import { VsInnerLoading } from '@vuesax-alpha/components/inner-loading'
+import IconLucideUser from '~icons/lucide/user'
+import IconLucideMail from '~icons/lucide/mail'
+import IconLucideBriefcase from '~icons/lucide/briefcase'
+import IconLucideCheckCircle from '~icons/lucide/check-circle'
+import IconLucideAlertCircle from '~icons/lucide/alert-circle'
+import IconLucideInfo from '~icons/lucide/info'
 
 type DialogType = 'success' | 'error' | 'warning' | 'info' | 'danger'
 
@@ -133,6 +366,12 @@ interface ModalConfig {
   title: string
   description: string
   btnText: string
+}
+
+interface FormData {
+  name: string
+  email: string
+  position: string
 }
 
 const modalConfigs: ModalConfig[] = [
@@ -179,6 +418,23 @@ const dialogLoading = ref(false)
 const loadingTarget = ref<HTMLElement>()
 const innerLoading = ref(false)
 
+// Select values
+const selectValue1 = ref('')
+const selectValue2 = ref('')
+const selectValue3 = ref<string[]>([])
+const selectValue4 = ref('')
+const selectValue5 = ref('')
+const selectValue6 = ref('')
+
+// Edit Dialog
+const editDialogVisible = ref(false)
+const editDialogMode = ref<'create' | 'edit'>('edit')
+const editDialogData = ref<FormData>({
+  name: 'Alex Morgan',
+  email: 'alex.m@design.com',
+  position: '高级产品设计师',
+})
+
 const openDialog = (type: DialogType) => {
   const config = modalConfigs.find((c) => c.type === type)
   if (config) {
@@ -211,14 +467,48 @@ const showLoading = () => {
     target: loadingTarget.value,
     type: 'corners',
   })
-
 }
 
 const toggleInnerLoading = () => {
   innerLoading.value = !innerLoading.value
   if (innerLoading.value) {
-
   }
+}
+
+// Edit Dialog 方法
+const openEditDialog = (mode: 'create' | 'edit') => {
+  editDialogMode.value = mode
+  if (mode === 'create') {
+    editDialogData.value = {
+      name: '',
+      email: '',
+      position: '',
+    }
+  } else {
+    editDialogData.value = {
+      name: 'Alex Morgan',
+      email: 'alex.m@design.com',
+      position: '高级产品设计师',
+    }
+  }
+  editDialogVisible.value = true
+}
+
+const handleEditConfirm = (
+  mode: 'create' | 'edit',
+  data: Record<string, any>,
+  done: (success: boolean) => void
+) => {
+  console.log('确认操作:', mode, data)
+  // 模拟异步操作
+  setTimeout(() => {
+    console.log('异步操作完成')
+    done(true)
+  }, 2000)
+}
+
+const handleEditCancel = () => {
+  console.log('取消编辑')
 }
 </script>
 
@@ -226,17 +516,53 @@ const toggleInnerLoading = () => {
 .play-container {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 40px;
   background: white;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
+  gap: 60px;
 }
 
 .demo-section {
-  max-width: 480px;
+  max-width: 800px;
   width: 100%;
+
+  &.select-demo {
+    margin-bottom: 20px;
+  }
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 24px 0;
+  text-align: center;
+}
+
+.select-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+
+  // 让最后一个选项跨两列
+  > :last-child {
+    grid-column: 1 / -1;
+    max-width: 50%;
+    margin: 0 auto;
+
+    @media (max-width: 768px) {
+      max-width: 100%;
+    }
+  }
 }
 
 .demo-title {
@@ -352,5 +678,10 @@ const toggleInnerLoading = () => {
   .demo-button {
     padding: 14px 20px;
   }
+}
+
+// Edit Dialog 表单样式
+.edit-form-item {
+  margin-bottom: 0;
 }
 </style>

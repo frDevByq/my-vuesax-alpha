@@ -53,13 +53,21 @@ export const inputProps = buildProps({
   inputStyle: {
     type: String,
     values: ['border', 'shadow', 'transparent'] as const,
-    default: null,
+    default: 'border',
   },
 
   /**
    * @description label is placeholder when input empty
    */
   labelFloat: {
+    type: Boolean,
+    default: false,
+  },
+
+  /**
+   * @description label float without taking up space (absolute positioning)
+   */
+  labelFloatNospace: {
     type: Boolean,
     default: false,
   },

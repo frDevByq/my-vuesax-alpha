@@ -88,11 +88,28 @@
           @input="debouncedQueryChange"
         />
       </div>
+      <div
+        v-if="!multiple && $slots.selected && states.selectedLabel"
+        :class="[ns.e('selected-display')]"
+        @click="toggleMenu"
+      >
+        <slot
+          name="selected"
+          :value="modelValue"
+          :label="states.selectedLabel"
+          :option="selectedArray[0]"
+        />
+      </div>
+
       <input
         :id="inputId"
         ref="reference"
         v-model="states.selectedLabel"
-        :class="[ns.e('input'), ns.is('multiple', multiple)]"
+        :class="[
+          ns.e('input'),
+          ns.is('multiple', multiple),
+          ns.is('hidden', !multiple && $slots.selected && states.selectedLabel),
+        ]"
         :readonly="readonly"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -124,7 +141,7 @@
           ),
         ]"
       >
-        {{ label }}
+        <slot name="label">{{ label }}</slot>
       </label>
 
       <span
@@ -147,6 +164,11 @@
           <icon-close hover="less" scale="0.675" />
         </span>
       </transition>
+
+      <div :class="ns.e('affects')">
+        <div :class="ns.em('affects', '1')" />
+        <div :class="ns.em('affects', '2')" />
+      </div>
 
       <vs-collapse-transition
         v-for="(messageType, index) in messageTypes"

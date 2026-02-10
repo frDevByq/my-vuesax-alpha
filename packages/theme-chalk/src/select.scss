@@ -78,7 +78,6 @@ $iconActiveMargin: -4px;
   @include e(icon) {
     color: getColor($color, 1);
     background: getColor($color, 0.1);
-    box-shadow: -15px 10px 10px -10px getColor($color, 0.1);
   }
   @include e(arrow) {
     color: getColor($color);
@@ -208,16 +207,28 @@ $iconActiveMargin: -4px;
   }
   @include e(input) {
     opacity: 1;
-    border: 2px solid transparent;
+    border: 1px solid getColor('gray-3');
     border-radius: 12px;
     z-index: 1;
     cursor: pointer;
     transition: getCssVar(transition-ease), height 0s;
-    background: getColor('gray-2');
+    background: getColor('background');
     color: getColor('text');
     min-height: getCssVar(select, min-height);
-    padding: 7px 30px 7px 10px;
+    padding: 10px 30px 10px 13px;
     width: 100%;
+    font-size: 14px;
+
+    &:hover:not(:focus) {
+      border-color: getColor('gray-4');
+    }
+
+    @include when(hidden) {
+      opacity: 0;
+      position: absolute;
+      pointer-events: none;
+      z-index: -1;
+    }
 
     @include when(multiple) {
       color: transparent !important;
@@ -257,7 +268,8 @@ $iconActiveMargin: -4px;
     position: absolute;
     z-index: 1;
     left: 0px;
-    background: getColor('gray-2');
+    background: getColor('background');
+    border: 1px solid getColor('gray-3');
     border-radius: 12px;
     display: flex;
     align-items: flex-start;
@@ -267,6 +279,57 @@ $iconActiveMargin: -4px;
     min-height: getCssVar(select, min-height);
     transition: getCssVar(transition-ease), height 0s;
     padding-right: 26px;
+
+    &:hover:not(:focus) {
+      border-color: getColor('gray-4');
+    }
+  }
+  @include e(selected-display) {
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    left: 0px;
+    background: getColor('background');
+    border: 1px solid getColor('gray-3');
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 10px 30px 10px 13px;
+    min-height: getCssVar(select, min-height);
+    transition: getCssVar(transition-ease), height 0s;
+    cursor: pointer;
+    font-size: 14px;
+    color: getColor('text');
+
+    &:hover {
+      border-color: getColor('gray-4');
+    }
+  }
+  @include e(affects) {
+    position: absolute;
+    bottom: 0.5px;
+    left: 6px;
+    right: 6px;
+    height: 2px;
+    pointer-events: none;
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+
+    @include m(1) {
+      display: none;
+    }
+
+    @include m(2) {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: getColor('color', 1);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
   }
   @include m(has-label) {
     margin-top: 24px !important;
@@ -322,12 +385,13 @@ $iconActiveMargin: -4px;
     }
     @include e(input) {
       transform: translateY(-4px);
-      background: getColor('background');
+      border-color: getColor('color', 0.3);
       box-shadow: 0 5px 25px -4px rgba(0, 0, 0, getCssVar(shadow-opacity));
     }
     @include e(chips) {
-      background: getColor('background');
+      border-color: getColor('color', 0.3);
       transform: translateY(-4px);
+      box-shadow: 0 5px 25px -4px rgba(0, 0, 0, getCssVar(shadow-opacity));
     }
     @include e(label) {
       @include when(placeholder) {
@@ -344,12 +408,18 @@ $iconActiveMargin: -4px;
       transform: translateY(calc(-50% - 4px)) rotate(180deg);
       margin-top: -2px !important;
     }
+    @include e(affects) {
+      @include m(2) {
+        transform: scaleX(1);
+      }
+    }
     @include e(input) {
       border-radius: 12px 12px 0px 0px;
       background: getColor('background');
       box-shadow: 0px 5px 25px -4px rgba(0, 0, 0, getCssVar(shadow-opacity));
       transition: getCssVar(transition-ease), height 0s;
-      border: 2px solid transparent;
+      border: 1px solid getColor('color', 1);
+      border-bottom-color: transparent;
       color: getColor('text');
       padding-left: 13px;
       transform: translateY(-4px);
@@ -385,8 +455,11 @@ $iconActiveMargin: -4px;
     @include e(chips) {
       border-radius: 12px 12px 0px 0px;
       background: getColor('background');
+      border: 1px solid getColor('color', 1);
+      border-bottom-color: transparent;
       transform: translate(0, -4px);
       transition: getCssVar(transition-ease), height 0s;
+      box-shadow: 0px 5px 25px -4px rgba(0, 0, 0, getCssVar(shadow-opacity));
       &:after {
         opacity: 0;
       }
@@ -437,7 +510,8 @@ $iconActiveMargin: -4px;
     cursor: default;
     max-width: calc(100% - getCssVar(select-label-left));
     z-index: 500;
-    color: getColor('text');
+    color: getColor('text', 0.6);
+    font-weight: 600;
 
     @include when(placeholder) {
       top: 50%;

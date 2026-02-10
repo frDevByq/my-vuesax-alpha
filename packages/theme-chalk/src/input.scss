@@ -55,7 +55,6 @@ input[type='number'] {
   @include e(icon) {
     color: getColor($color);
     background: getColor($color, 0.1);
-    box-shadow: -15px 10px 10px -10px getColor($color, 0.1);
   }
 }
 
@@ -107,6 +106,9 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
   }
   @include when(block) {
     width: 100%;
+    @include e(wrapper) {
+      width: 100%;
+    }
     @include e(original) {
       width: 100%;
     }
@@ -115,30 +117,44 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
     &.#{$namespace}-input--has-icon {
       &:not(.#{$namespace}-input--icon-after) {
         @include e(original) {
-          padding-left: 40px;
-        }
-        @include e(icon) {
-          box-shadow: 15px 10px 10px -10px rgba(0, 0, 0, getCssVar('shadow-opacity'));
+          padding-left: 42px;
         }
 
         @include e(placeholder) {
           &:not(.#{$namespace}-input__placeholder-float) {
-            left: 48px;
+            left: 42px;
           }
         }
       }
       &.#{$namespace}-input--icon-after {
         @include e(label) {
-          left: 44px;
+          left: 13px;
           @include m(placeholder) {
-            transform: translate(calc(-3px - 22px), -80%) !important;
+            transform: translate(0, -80%) !important;
           }
         }
       }
     }
+
+    // focus 时，有图标且有标签的浮动标签在图标右边
+    &.#{$namespace}-input--has-label.#{$namespace}-input--has-icon {
+      @include e(placeholder) {
+        &.#{$namespace}-input__placeholder--float {
+          left: 42px !important;
+        }
+      }
+    }
+
+    // focus 时的边框动画
+    @include e(affects) {
+      @include m(2) {
+        transform: scaleX(1);
+      }
+    }
+
     &.#{$namespace}-input--has-color {
       @include e(original) {
-        border-bottom: 2px solid getColor(color);
+        border-color: getColor(color);
       }
 
       @include e(icon) {
@@ -154,17 +170,15 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
     }
     &.#{$namespace}-input--icon-after {
       @include e(icon) {
-        transform: translate(6px, -6px);
+        color: getColor('text');
       }
     }
     @include e(original) {
-      background: getColor('gray-3');
-      padding-left: 15px;
+      background: getColor('background');
+      padding-left: 13px;
     }
     @include e(icon) {
-      box-shadow: -15px 10px 10px -10px rgba(0, 0, 0, getCssVar('shadow-opacity'));
-      transform: translate(-6px, -6px);
-      background: getColor('gray-1');
+      color: getColor('text', 0.8);
     }
     @include e(clearable) {
       right: getCssVar(input-default-icon-right);
@@ -179,8 +193,11 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
-        transform: translate(-3%, -80%);
+        transform: translate(0, -80%);
         font-size: 0.75rem;
+        left: 13px;
+        color: getColor('text', 0.6);
+        font-weight: 600;
       }
     }
   }
@@ -202,10 +219,9 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
   @include when(border) {
     @include e(icon) {
       background: transparent !important;
-      box-shadow: none !important;
     }
     @include e(wrapper) {
-      border-radius: 0px;
+      border-radius: 8px;
     }
     @include e(affects) {
       width: 100%;
@@ -215,7 +231,7 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
       left: 0px;
       pointer-events: none;
       @include m(1) {
-        border-bottom: 2px solid getColor('gray-3');
+        border-bottom: 2px solid getColor('gray-4');
         width: 100%;
         height: 2px;
         position: absolute;
@@ -237,7 +253,8 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
     }
     @include e(original) {
       background: transparent;
-      border-radius: 0px;
+      border-radius: 8px;
+      border-color: #d2d2d2;
     }
     @include when(focus) {
       @include e(affects) {
@@ -251,7 +268,6 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
     @include e(icon) {
       background: transparent;
       z-index: 100;
-      // box-shadow: none !important;
     }
     @include e(affects) {
       width: 100%;
@@ -282,7 +298,6 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
       @include e(icon) {
         background: getColor('background') !important;
         opacity: 1;
-        box-shadow: 0px 10px 20px -5px rgba(0, 0, 0, getCssVar('shadow-opacity')) !important;
       }
       @include e(affects) {
         @include m(1) {
@@ -295,38 +310,84 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
 
   @include m(has-label) {
     margin-top: 24px !important;
+
+    // 当有图标且使用浮动标签时
+    &.#{$namespace}-input--has-icon {
+      @include e(placeholder) {
+        // 未浮动时（没有 hidden 类）在图标右边
+        &:not(.#{$namespace}-input__placeholder--hidden) {
+          left: 42px !important;
+        }
+
+        // 浮动后（有 hidden 类）默认对齐左边
+        &.#{$namespace}-input__placeholder--hidden {
+          &.#{$namespace}-input__placeholder--float {
+            left: 13px !important;
+          }
+        }
+      }
+    }
+  }
+
+  @include m(label-float-nospace) {
+    margin-top: 0 !important;
+
+    @include e(placeholder) {
+      @include m(nospace) {
+        // 默认状态：在输入框内部
+        position: absolute;
+        left: 13px;
+        opacity: 0.4;
+        transition: getCssVar(transition-ease);
+      }
+
+      // 有内容时：浮动到上方
+      @include m(float-up) {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto;
+        transform: translate(0, -80%);
+        font-size: 0.75rem;
+        left: 13px;
+        color: getColor('text', 0.6);
+        font-weight: 600;
+      }
+    }
   }
   @include m(has-icon) {
     @include e(original) {
-      padding-left: 38px;
+      padding-left: 42px;
     }
 
     @include e(placeholder) {
-      left: 44px;
+      left: 42px;
+
+      &.#{$namespace}-input__placeholder--float {
+        left: 13px;
+      }
     }
 
     @include e(label) {
-      left: 44px;
+      left: 42px;
     }
 
     @include e(icon) {
       pointer-events: auto !important;
       cursor: pointer;
       &:hover {
-        box-shadow: 15px 10px 10px -10px rgba(0, 0, 0, getCssVar('shadow-opacity'));
-        // box-shadow: -15px 10px 10px -10px rgba(0, 0, 0, getCssVar('shadow-opacity'));
-        transform: translate(-6px, -6px);
-        background: getColor('gray-1');
+        color: getColor('text');
+        background: getColor('gray-2');
       }
     }
     &.#{$namespace}-input--icon-after {
       @include e(label) {
-        transform: translate(calc(-3px - 30px), -80%);
+        left: 13px;
+        transform: translate(0, -77%);
       }
       @include e(icon) {
-        box-shadow: -15px 10px 10px -10px rgba(0, 0, 0, getCssVar('shadow-opacity'));
         &:hover {
-          transform: translate(6px, -6px);
+          color: getColor('text');
+          background: getColor('gray-2');
         }
       }
     }
@@ -344,8 +405,8 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
     }
 
     @include e(original) {
-      padding-left: 7px;
-      padding-right: 38px;
+      padding-left: 13px;
+      padding-right: 42px;
     }
 
     &.#{$namespace}-input--icon-clearable.#{$namespace}-input--icon-eye {
@@ -358,8 +419,7 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
 
     @include e(icon) {
       left: auto;
-      right: 2px;
-      box-shadow: -12px 0px 10px -10px rgba(0, 0, 0, getCssVar('shadow-opacity'));
+      right: 4px;
     }
   }
   @include m(icon-eye) {
@@ -415,9 +475,37 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
 
     @include flex(flex-start, center);
     position: relative;
-    border-radius: 12px;
+    border-radius: 8px;
     width: 100%;
   }
+
+  @include e(affects) {
+    position: absolute;
+    bottom: 0.5px;
+    left: 6px;
+    right: 6px;
+    height: 2px;
+    pointer-events: none;
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+
+    @include m(1) {
+      display: none;
+    }
+
+    @include m(2) {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: getColor('color', 1);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+  }
+
   @include e(clearable) {
     @include set-var-value(color, getCssVar(text));
     position: absolute;
@@ -439,27 +527,37 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
     }
   }
   @include e(original) {
-    border: 2px solid transparent;
-    background: getColor('gray-2');
+    border: 1px solid getColor('gray-3');
+    background: getColor('background');
     color: getColor('text');
-    padding: 7px 13px;
+    padding: 10px 13px;
     border-radius: inherit;
     transition: getCssVar(transition-ease);
-    padding-left: 10px;
+    padding-left: 13px;
     width: 200px;
+    font-size: 14px;
+
+    &:focus {
+      border-color: getColor('color', 1);
+      outline: none;
+    }
+
+    &:hover:not(:focus) {
+      border-color: getColor('gray-4');
+    }
   }
   @include e(icon) {
     position: absolute;
     right: auto;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     @include flex(center, center);
-    box-shadow: 12px 0px 10px -10px rgba(0, 0, 0, getCssVar('shadow-opacity'));
     transition: getCssVar(transition-ease);
-    border-radius: inherit;
-    background: getColor('gray-2');
+    border-radius: 6px;
+    background: transparent;
+    color: getColor('text', 0.6);
     pointer-events: none;
-    left: 2px;
+    left: 4px;
     user-select: none;
 
     @include m(password) {
@@ -498,8 +596,11 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
-        transform: translate(-3%, -80%);
+        transform: translate(0, -80%);
         font-size: 0.75rem;
+        left: 13px;
+        color: getColor('text', 0.6);
+        font-weight: 600;
       }
     }
   }
@@ -513,8 +614,10 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
     @include flex(flex-start, center);
 
     pointer-events: auto;
-    transform: translate(-2px, -77%);
+    transform: translate(0, -77%);
     font-size: 0.75rem;
+    color: getColor('text', 0.6);
+    font-weight: 600;
   }
   @include e(progress) {
     width: 95%;

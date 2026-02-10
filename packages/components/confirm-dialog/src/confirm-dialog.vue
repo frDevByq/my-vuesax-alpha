@@ -64,11 +64,20 @@
               :color="buttonColor"
               size="large"
               :loading="computedConfirmLoading"
+              :disabled="showSuccess"
               class="confirm-dialog-btn-confirm"
               @click="handleConfirm"
             >
-              {{ confirmText }}
-              <icon-lucide-chevron-right class="confirm-dialog-arrow" />
+              <transition name="success-fade" mode="out-in">
+                <span v-if="showSuccess" key="success" class="success-content">
+                  <icon-lucide-check-circle class="success-icon" />
+                  操作成功
+                </span>
+                <span v-else key="normal" class="normal-content">
+                  {{ confirmText }}
+                  <icon-lucide-chevron-right class="confirm-dialog-arrow" />
+                </span>
+              </transition>
             </vs-button>
           </div>
 
@@ -123,6 +132,7 @@ const visible = ref(false)
 const { nextZIndex } = useZIndex()
 const zIndex = ref(nextZIndex())
 const internalConfirmLoading = ref(false)
+const showSuccess = ref(false)
 
 // 计算确认按钮的 loading 状态
 const computedConfirmLoading = computed(() => {
@@ -163,18 +173,32 @@ const handleConfirm = () => {
     // 异步确认模式
     internalConfirmLoading.value = true
 
-    const done = () => {
+    const done = (success = true) => {
       internalConfirmLoading.value = false
-      close()
+      if (success) {
+        // 显示成功状态
+        showSuccess.value = true
+        // 2秒后关闭弹窗
+        setTimeout(() => {
+          showSuccess.value = false
+          close()
+        }, 1000)
+      } else {
+        // 失败不关闭
+      }
     }
 
     try {
       const result = emit('confirm', done)
       // 如果返回 Promise，处理它
       if (result && typeof result === 'object' && 'then' in result) {
-        result.then(done).catch(() => {
-          internalConfirmLoading.value = false
-        })
+        result
+          .then(() => {
+            done(true)
+          })
+          .catch(() => {
+            internalConfirmLoading.value = false
+          })
       }
     } catch {
       internalConfirmLoading.value = false
@@ -391,7 +415,7 @@ watch(
 }
 
 .confirm-dialog-btn-confirm {
-  flex: 1.5;
+  flex: 1;
   border-radius: 9999px !important;
 
   :deep(.vs-button__content) {
@@ -400,6 +424,53 @@ watch(
     justify-content: center;
     gap: 8px;
   }
+}
+
+.normal-content,
+.success-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.success-content {
+  color: white;
+  font-weight: 600;
+}
+
+.success-icon {
+  font-size: 18px;
+  animation: success-bounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes success-bounce {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-fade-enter-active,
+.success-fade-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.success-fade-enter-from {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.success-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
 }
 
 .confirm-dialog-arrow {

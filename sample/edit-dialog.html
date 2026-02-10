@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Apple Style Editor - White</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+  body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+  /* 纯白流光效果 */
+  .glow-border {
+  position: relative;
+  border-radius: 24px;
+  padding: 1px; /* 边框宽度 */
+  background: rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+}
+
+  .glow-border::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+  from 0deg,
+  transparent 0deg,
+  transparent 120deg,
+  rgba(0, 102, 255, 0.1) 180deg,
+  transparent 240deg,
+  transparent 360deg
+  );
+  animation: rotate 8s linear infinite;
+}
+
+  @keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+  .glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-radius: 23px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+  .input-focus-ring {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+  .input-focus-ring:focus-within {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+}
+
+  /* 隐藏输入框默认边框 */
+  input:focus {
+  outline: none;
+}
+</style>
+</head>
+<body>
+
+<!-- 弹窗容器 -->
+<div class="glow-border w-full max-w-md mx-4">
+  <div class="glass-card p-8 relative z-10 text-slate-900">
+
+    <!-- 头部 -->
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h2 class="text-xl font-semibold tracking-tight text-slate-900">编辑资料</h2>
+        <p class="text-slate-500 text-sm mt-1">更新您的个人信息与偏好设置</p>
+      </div>
+      <div class="bg-slate-100 p-2.5 rounded-xl border border-slate-200/50">
+        <i data-lucide="pen-tool" class="w-5 h-5 text-slate-600"></i>
+      </div>
+    </div>
+
+    <!-- 表单内容 -->
+    <div class="space-y-6">
+
+      <!-- 输入项 1 -->
+      <div class="space-y-2">
+        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">用户姓名</label>
+        <div class="input-focus-ring flex items-center bg-slate-50/50 rounded-2xl px-4 py-3.5 group">
+          <i data-lucide="user" class="w-4 h-4 text-slate-400 group-focus-within:text-blue-500 mr-3 transition-colors"></i>
+          <input type="text" placeholder="输入姓名" class="bg-transparent w-full text-sm text-slate-800 placeholder:text-slate-300" value="Alex Morgan">
+        </div>
+      </div>
+
+      <!-- 输入项 2 -->
+      <div class="space-y-2">
+        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">电子邮件</label>
+        <div class="input-focus-ring flex items-center bg-slate-50/50 rounded-2xl px-4 py-3.5 group">
+          <i data-lucide="mail" class="w-4 h-4 text-slate-400 group-focus-within:text-blue-500 mr-3 transition-colors"></i>
+          <input type="email" placeholder="email@example.com" class="bg-transparent w-full text-sm text-slate-800 placeholder:text-slate-300" value="alex.m@design.com">
+        </div>
+      </div>
+
+      <!-- 输入项 3 - 选择框样式 -->
+      <div class="space-y-2">
+        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">工作岗位</label>
+        <div class="input-focus-ring flex items-center bg-slate-50/50 rounded-2xl px-4 py-3.5 group cursor-pointer hover:bg-slate-100/50 transition-all">
+          <i data-lucide="briefcase" class="w-4 h-4 text-slate-400 mr-3 transition-colors"></i>
+          <span class="text-sm text-slate-700 flex-1">高级产品设计师</span>
+          <i data-lucide="chevron-down" class="w-4 h-4 text-slate-300 group-hover:text-slate-500"></i>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 底部操作栏 -->
+    <div class="flex items-center gap-3 mt-10">
+      <button class="flex-1 px-4 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-sm font-medium transition-all active:scale-95">
+        取消
+      </button>
+      <button class="flex-[2] px-4 py-3 rounded-2xl bg-slate-900 text-white text-sm font-semibold hover:bg-black transition-all shadow-md active:scale-95">
+        保存更改
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // 初始化 Lucide 图标
+  lucide.createIcons();
+</script>
+</body>
+</html>

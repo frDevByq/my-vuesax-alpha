@@ -22,31 +22,42 @@
       />
 
       <label
-        v-if="placeholder || labelFloat"
+        v-if="placeholder || labelFloat || labelFloatNospace"
         :for="inputId"
         :class="[
           ns.e('placeholder'),
           { [ns.em('placeholder', 'float')]: labelFloat },
+          { [ns.em('placeholder', 'nospace')]: labelFloatNospace },
           {
             [ns.em('placeholder', 'hidden')]:
-              model ||
-              model === 0 ||
-              inputType == 'date' ||
-              inputType == 'time',
+              !labelFloatNospace &&
+              (model ||
+                model === 0 ||
+                inputType == 'date' ||
+                inputType == 'time'),
+          },
+          {
+            [ns.em('placeholder', 'float-up')]:
+              labelFloatNospace &&
+              (focused ||
+                model ||
+                model === 0 ||
+                inputType == 'date' ||
+                inputType == 'time'),
           },
         ]"
         @mousedown.prevent="NOOP"
       >
-        {{ placeholder || label }}
+        <slot name="label">{{ placeholder || label }}</slot>
       </label>
 
       <label
-        v-if="!labelFloat"
+        v-if="!labelFloat && !labelFloatNospace"
         :for="inputId"
         :class="[ns.e('label')]"
         @mousedown.prevent="NOOP"
       >
-        {{ label }}
+        <slot name="label">{{ label }}</slot>
       </label>
 
       <span
@@ -238,7 +249,11 @@ const inputKls = computed(() => [
   ns.is('text-white', props.textWhite),
 
   { [ns.m(`state-${props.state}`)]: !!props.state },
-  { [ns.m('has-label')]: props.label || props.labelFloat },
+  {
+    [ns.m('has-label')]:
+      props.label || props.labelFloat || props.labelFloatNospace,
+  },
+  { [ns.m('label-float-nospace')]: props.labelFloatNospace },
   { [ns.m('has-color')]: props.color },
 
   { [ns.m('has-icon')]: slots.icon },

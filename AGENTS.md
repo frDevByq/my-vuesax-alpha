@@ -11,10 +11,44 @@
 - 🎨 **样式**: SCSS + BEM 命名规范
 - 🧪 **测试**: Vitest + @vue/test-utils
 - 📝 **文档**: VuePress
+- 🎭 **图标**: unplugin-icons (Lucide Icons 图标集)
 
 ## 核心开发原则
 
 ### 1. 代码风格与规范
+
+#### 图标使用规范
+
+本项目使用 **unplugin-icons** 作为图标解决方案，默认使用 **Lucide Icons** 图标集。
+
+```typescript
+// ✅ 正确的图标导入方式
+import IconLucideCheckCircle from '~icons/lucide/check-circle'
+import IconLucideAlertCircle from '~icons/lucide/alert-circle'
+import IconLucideX from '~icons/lucide/x'
+
+// 在模板中使用
+;<template>
+  <icon-lucide-check-circle />
+</template>
+```
+
+**常用图标**：
+
+- `check-circle` - 成功/确认图标
+- `alert-circle` - 错误/警告图标
+- `alert-triangle` - 警告图标
+- `info` - 信息图标
+- `trash-2` - 删除图标
+- `x` - 关闭图标
+- `chevron-right` - 右箭头
+
+**图标命名规则**：
+
+- 导入名称：`IconLucide{IconName}` (PascalCase)
+- 组件使用：`<icon-lucide-{icon-name} />` (kebab-case)
+
+**查找图标**：访问 [Lucide Icons](https://lucide.dev/icons/) 查看所有可用图标。
 
 #### TypeScript 规范
 
