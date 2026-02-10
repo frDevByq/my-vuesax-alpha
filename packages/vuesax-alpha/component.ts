@@ -10,6 +10,7 @@ import { VsDialog } from '@vuesax-alpha/components/dialog'
 import { VsIcon } from '@vuesax-alpha/components/icon'
 import { VsInput } from '@vuesax-alpha/components/input'
 import { VsInputNumber } from '@vuesax-alpha/components/input-number'
+import { VsInnerLoading } from '@vuesax-alpha/components/inner-loading'
 import {
   VsNavbar,
   VsNavbarGroup,
@@ -56,6 +57,7 @@ export default [
   VsIcon,
   VsInput,
   VsInputNumber,
+  VsInnerLoading,
   VsOptionGroup,
   VsOption,
   VsNavbar,

@@ -40,7 +40,11 @@ export default defineConfig(async ({ mode }) => {
     await glob(['dayjs/(locale|plugin)/*.js'], {
       cwd: path.resolve(projRoot, 'node_modules'),
     })
-  ).map((dep) => dep.replace(/\.js$/, ''))
+  ).map((dep) => dep.replace(/\\.js$/, ''))
+
+  // 动态导入 ESM 模块
+  const Icons = (await import('unplugin-icons/vite')).default
+  const IconsResolver = (await import('unplugin-icons/resolver')).default
 
   return {
     resolve: {
@@ -71,8 +75,18 @@ export default defineConfig(async ({ mode }) => {
       esbuildPlugin(),
       Components({
         include: `${__dirname}/**`,
-        resolvers: VuesaxAlphaResolver({ importStyle: 'sass' }),
+        resolvers: [
+          VuesaxAlphaResolver({ importStyle: 'sass' }),
+          IconsResolver({
+            prefix: 'icon',
+            enabledCollections: ['lucide'],
+          }),
+        ],
         dts: false,
+      }),
+      Icons({
+        autoInstall: true,
+        compiler: 'vue3',
       }),
       mkcert(),
       Inspect(),
