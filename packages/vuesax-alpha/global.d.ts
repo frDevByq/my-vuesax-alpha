@@ -1,10 +1,13 @@
 // GlobalComponents for Volar
+import type { ButtonProps } from '@vuesax-alpha/components/button'
+import type { InputProps } from '@vuesax-alpha/components/input'
+import type { SelectProps } from '@vuesax-alpha/components/select'
+
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     VsAlert: typeof import('vuesax-alpha')['VsAlert']
     VsAvatar: typeof import('vuesax-alpha')['VsAvatar']
     VsAvatarGroup: typeof import('vuesax-alpha')['VsAvatarGroup']
-    // VsBadge             : typeof import('vuesax-alpha')['VsBadge']
     VsButton: typeof import('vuesax-alpha')['VsButton']
     VsButtonGroup: typeof import('vuesax-alpha')['VsButtonGroup']
     VsCard: typeof import('vuesax-alpha')['VsCard']

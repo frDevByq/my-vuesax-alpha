@@ -4,6 +4,11 @@
     <div class="demo-section select-demo">
       <h2 class="section-title">Select 组件演示</h2>
       <div class="select-grid">
+
+        <vs-button >
+          Hello
+        </vs-button>
+
         <vs-select
           v-model="selectValue1"
           placeholder="选择一个选项"

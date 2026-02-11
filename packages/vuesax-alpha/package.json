@@ -10,9 +10,9 @@
     "ui",
     "vue"
   ],
-  "homepage": "https://vuesax-alpha.vercel.app/",
+  "homepage": "https://github.com/frDevByq/my-vuesax-alpha",
   "bugs": {
-    "url": "https://github.com/vuesax-alpha/vuesax-alpha/issues"
+    "url": "https://github.com/frDevByq/my-vuesax-alpha/issue"
   },
   "license": "MIT",
   "main": "lib/index.js",
