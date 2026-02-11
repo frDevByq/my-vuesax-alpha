@@ -57,6 +57,14 @@ export default defineConfig(async ({ mode }) => {
           find: /^vuesax-alpha\/(es|lib)\/(.*)$/,
           replacement: `${pkgRoot}/$2`,
         },
+        {
+          find: /^@yqb\/my-vuesax(\/(es|lib))?$/,
+          replacement: path.resolve(vsRoot, 'index.ts'),
+        },
+        {
+          find: /^@yqb\/my-vuesax\/(es|lib)\/(.*)$/,
+          replacement: `${pkgRoot}/$2`,
+        },
       ],
     },
     server: {

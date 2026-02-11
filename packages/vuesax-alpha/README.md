@@ -1,11 +1,11 @@
-# `vuesax-alpha`
+# `@yqb/my-vuesax`
 
 > TODO: description
 
 ## Usage
 
 ```
-const vuesax = require('vuesax-alpha');
+const vuesax = require('@yqb/my-vuesax');
 
 // TODO: DEMONSTRATE API
 ```

@@ -6,6 +6,7 @@ import vue from '@vitejs/plugin-vue'
 import VueMacros from 'unplugin-vue-macros/rollup'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import esbuild, { minify as minifyPlugin } from 'rollup-plugin-esbuild'
+import Icons from 'unplugin-icons/rollup'
 import { parallel } from 'gulp'
 import glob from 'fast-glob'
 import { camelCase, upperFirst } from 'lodash-unified'
@@ -31,6 +32,9 @@ const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`
 async function buildFullEntry(minify: boolean) {
   const plugins: Plugin[] = [
     VuesaxAlphaAlias(),
+    Icons({
+      compiler: 'vue3',
+    }),
     VueMacros({
       setupComponent: false,
       setupSFC: false,

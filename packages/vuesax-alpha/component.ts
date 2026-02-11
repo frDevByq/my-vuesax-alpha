@@ -6,7 +6,9 @@ import { VsCard, VsCardGroup } from '@vuesax-alpha/components/card'
 import { VsCheckbox, VsCheckboxGroup } from '@vuesax-alpha/components/checkbox'
 import { VsCol } from '@vuesax-alpha/components/col'
 import { VsCollapseTransition } from '@vuesax-alpha/components/collapse-transition'
+import { VsConfirmDialog } from '@vuesax-alpha/components/confirm-dialog'
 import { VsDialog } from '@vuesax-alpha/components/dialog'
+import { VsEditDialog } from '@vuesax-alpha/components/edit-dialog'
 import { VsIcon } from '@vuesax-alpha/components/icon'
 import { VsInput } from '@vuesax-alpha/components/input'
 import { VsInputNumber } from '@vuesax-alpha/components/input-number'
@@ -53,7 +55,9 @@ export default [
   VsCheckboxGroup,
   VsCol,
   VsCollapseTransition,
+  VsConfirmDialog,
   VsDialog,
+  VsEditDialog,
   VsIcon,
   VsInput,
   VsInputNumber,

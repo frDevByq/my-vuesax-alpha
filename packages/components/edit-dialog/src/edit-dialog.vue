@@ -100,7 +100,6 @@ import VsButton from '@vuesax-alpha/components/button'
 import VsInnerLoading from '@vuesax-alpha/components/inner-loading'
 import { editDialogEmits, editDialogProps } from './edit-dialog'
 import IconLucidePenTool from '~icons/lucide/pen-tool'
-import IconLucideX from '~icons/lucide/x'
 import IconLucideCheckCircle from '~icons/lucide/check-circle'
 
 defineOptions({
@@ -163,9 +162,14 @@ const handleConfirm = () => {
     }
 
     try {
-      const result = emit('confirm', props.mode, internalData.value, done)
+      const result: unknown = emit(
+        'confirm',
+        props.mode,
+        internalData.value,
+        done
+      )
       if (result && typeof result === 'object' && 'then' in result) {
-        result
+        ;(result as Promise<void>)
           .then(() => {
             done(true)
           })
@@ -239,7 +243,7 @@ watch(
 </script>
 
 <style scoped lang="scss">
-// 动画定义
+/* 动画定义 */
 .edit-dialog-enter-active {
   transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 
@@ -280,7 +284,7 @@ watch(
   }
 }
 
-// 遮罩层
+/* 遮罩层 */
 .edit-dialog-overlay {
   position: fixed;
   inset: 0;
@@ -292,7 +296,7 @@ watch(
   backdrop-filter: blur(12px);
 }
 
-// 流光边框
+/* 流光边框 */
 .edit-dialog-glow-border {
   position: relative;
   width: 100%;
@@ -331,7 +335,7 @@ watch(
   }
 }
 
-// 对话框容器
+/* 对话框容器 */
 .edit-dialog-container {
   position: relative;
   width: 100%;
@@ -344,7 +348,7 @@ watch(
   z-index: 1;
 }
 
-// 头部
+/* 头部 */
 .edit-dialog-header {
   display: flex;
   align-items: center;
@@ -382,7 +386,7 @@ watch(
   color: #64748b;
 }
 
-// 内容区域
+/* 内容区域 */
 .edit-dialog-content {
   margin-bottom: 32px;
 }
@@ -393,7 +397,7 @@ watch(
   gap: 24px;
 }
 
-// 按钮组
+/* 按钮组 */
 .edit-dialog-actions {
   display: flex;
   gap: 12px;
@@ -460,7 +464,7 @@ watch(
   transform: scale(0.8);
 }
 
-// 关闭按钮
+/* 关闭按钮 */
 .edit-dialog-close {
   position: absolute !important;
   top: 20px !important;
@@ -477,7 +481,7 @@ watch(
   }
 }
 
-// 响应式
+/* 响应式 */
 @media (max-width: 640px) {
   .edit-dialog-container {
     max-width: calc(100vw - 32px);

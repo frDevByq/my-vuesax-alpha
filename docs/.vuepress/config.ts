@@ -1,7 +1,12 @@
 import { defineUserConfig } from 'vuepress'
+import { viteBundler } from '@vuepress/bundler-vite'
 import { enNavbar, enSearchData, enSidebar } from './app'
 import { vuesaxAlphaTheme } from './theme/index'
 import type { UserConfig } from 'vuepress'
+import { path } from '@vuepress/utils'
+import { fileURLToPath } from 'url'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineUserConfig({
   open: true,
@@ -113,4 +118,16 @@ export default defineUserConfig({
     },
     typographer: true,
   },
+  bundler: viteBundler({
+    viteOptions: {
+      resolve: {
+        alias: {
+          '@yqb/my-vuesax': path.resolve(
+            __dirname,
+            '../../packages/vuesax-alpha/index.ts'
+          ),
+        },
+      },
+    },
+  }),
 }) as UserConfig

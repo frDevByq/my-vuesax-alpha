@@ -1,0 +1,80 @@
+// Inner Loading
+.vs-inner-loading {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-height: var(--inner-loading-min-height, 0px);
+}
+
+.vs-inner-loading__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(6px);
+  border-radius: inherit;
+}
+
+.vs-inner-loading__spinner {
+  position: relative;
+  width: 42px;
+  height: 42px;
+}
+
+.vs-inner-loading__spinner--ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid var(--inner-loading-color, #5b3cc4);
+  border-color: var(--inner-loading-color, #5b3cc4) transparent
+    var(--inner-loading-color, #5b3cc4) transparent;
+  animation: inner-loading-corners 1s ease infinite;
+}
+
+@keyframes inner-loading-corners {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.vs-inner-loading__description {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.vs-inner-loading__content {
+  width: 100%;
+}
+
+.inner-loading-fade-enter-active,
+.inner-loading-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.inner-loading-fade-enter-from,
+.inner-loading-fade-leave-to {
+  opacity: 0;
+}
+
+.inner-loading-content-enter-active {
+  transition: opacity 0.2s ease;
+}
+
+.inner-loading-content-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.inner-loading-content-enter-from {
+  opacity: 0.4;
+}
+
+.inner-loading-content-leave-to {
+  opacity: 0.4;
+}

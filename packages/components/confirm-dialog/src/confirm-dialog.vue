@@ -189,10 +189,10 @@ const handleConfirm = () => {
     }
 
     try {
-      const result = emit('confirm', done)
+      const result: unknown = emit('confirm', done)
       // 如果返回 Promise，处理它
       if (result && typeof result === 'object' && 'then' in result) {
-        result
+        ;(result as Promise<void>)
           .then(() => {
             done(true)
           })
@@ -259,7 +259,7 @@ watch(
 </script>
 
 <style scoped lang="scss">
-// 动画定义
+/* 动画定义 */
 .confirm-dialog-enter-active {
   transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 
@@ -300,7 +300,7 @@ watch(
   }
 }
 
-// 遮罩层
+/* 遮罩层 */
 .confirm-dialog-overlay {
   position: fixed;
   inset: 0;
@@ -312,7 +312,7 @@ watch(
   backdrop-filter: blur(12px);
 }
 
-// 对话框容器 - 非对称异形设计
+/* 对话框容器 - 非对称异形设计 */
 .confirm-dialog-container {
   position: relative;
   width: 100%;
@@ -321,7 +321,7 @@ watch(
   border: 1px solid rgba(226, 232, 240, 0.8);
   box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.1);
 
-  // 非对称圆角
+  /* 非对称圆角 */
   border-radius: 100px 40px 100px 40px;
 
   padding: 40px;
@@ -333,7 +333,7 @@ watch(
   text-align: center;
 }
 
-// 图标包装器
+/* 图标包装器 */
 .confirm-dialog-icon-wrapper {
   position: absolute;
   top: 0;
@@ -379,7 +379,7 @@ watch(
   }
 }
 
-// 内容区域
+/* 内容区域 */
 .confirm-dialog-content {
   margin-top: 16px;
   margin-bottom: 40px;
@@ -402,7 +402,7 @@ watch(
   padding: 0 16px;
 }
 
-// 按钮组
+/* 按钮组 */
 .confirm-dialog-actions {
   display: flex;
   gap: 12px;
@@ -482,7 +482,7 @@ watch(
   transform: translateX(4px);
 }
 
-// 装饰元素
+/* 装饰元素 */
 .confirm-dialog-decoration {
   position: absolute;
   width: 16px;
@@ -506,7 +506,7 @@ watch(
   }
 }
 
-// 关闭按钮
+/* 关闭按钮 */
 .confirm-dialog-close {
   position: absolute !important;
   top: 20px !important;
@@ -523,7 +523,7 @@ watch(
   }
 }
 
-// 响应式
+/* 响应式 */
 @media (max-width: 640px) {
   .confirm-dialog-container {
     max-width: calc(100vw - 32px);

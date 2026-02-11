@@ -19,10 +19,6 @@ export const copyFiles = () =>
       path.resolve(projRoot, 'README.md'),
       path.resolve(vsOutput, 'README.md')
     ),
-    copyFile(
-      path.resolve(projRoot, 'global.d.ts'),
-      path.resolve(vsOutput, 'global.d.ts')
-    ),
   ])
 
 export const copyTypesDefinitions: TaskFunction = (done) => {

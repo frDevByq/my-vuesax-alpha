@@ -88,6 +88,9 @@ export const generateTypesDefinitions = async () => {
 
 async function addSourceFiles(project: Project) {
   project.addSourceFileAtPath(path.resolve(projRoot, 'typings/env.d.ts'))
+  project.addSourceFileAtPath(
+    path.resolve(projRoot, 'typings/components.d.ts')
+  )
 
   const globSourceFile = '**/*.{js?(x),ts?(x),vue}'
   const filePaths = excludeFiles(
@@ -97,9 +100,11 @@ async function addSourceFiles(project: Project) {
       onlyFiles: true,
     })
   )
+    .filter((file) => !file.startsWith(`${vsRoot}${path.sep}`))
   const vsPaths = excludeFiles(
     await glob(globSourceFile, {
       cwd: vsRoot,
+      absolute: true,
       onlyFiles: true,
     })
   )
@@ -137,10 +142,18 @@ async function addSourceFiles(project: Project) {
       }
     }),
     ...vsPaths.map(async (file) => {
-      const content = await readFile(path.resolve(vsRoot, file), 'utf-8')
-      sourceFiles.push(
-        project.createSourceFile(path.resolve(pkgRoot, file), content)
-      )
+      const normalized = path.normalize(file).toLowerCase()
+      const existing =
+        project.getSourceFile(file) ??
+        project.getSourceFile(
+          (sourceFile) =>
+            path.normalize(sourceFile.getFilePath()).toLowerCase() === normalized
+        )
+      if (existing) {
+        return
+      }
+      const content = await readFile(file, 'utf-8')
+      sourceFiles.push(project.createSourceFile(file, content, { overwrite: true }))
     }),
   ])
 

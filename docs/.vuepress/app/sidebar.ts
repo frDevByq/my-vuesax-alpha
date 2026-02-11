@@ -55,6 +55,9 @@ export const enSidebar: SidebarConfig = [
       { text: `Scrollbar`, link: `/components/scrollbar` },
       { text: `Rate`, link: `/components/rate` },
       { text: `Badge`, link: `/components/badge` },
+      { text: `Confirm Dialog`, link: `/components/confirm-dialog` },
+      { text: `Edit Dialog`, link: `/components/edit-dialog` },
+      { text: `Inner Loading`, link: `/components/inner-loading` },
       // new component slot 2
     ],
   },
