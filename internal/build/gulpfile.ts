@@ -23,9 +23,13 @@ export const copyFiles = () =>
 
 export const copyTypesDefinitions: TaskFunction = (done) => {
   const src = path.resolve(buildOutput, 'types', 'packages')
+  const vsTypesRoot = path.resolve(src, 'vuesax-alpha')
   const copyTypes = (module: Module) =>
     withTaskName(`copyTypes:${module}`, () =>
-      copy(src, buildConfig[module].output.path, { recursive: true })
+      Promise.all([
+        copy(src, buildConfig[module].output.path, { recursive: true }),
+        copy(vsTypesRoot, buildConfig[module].output.path, { recursive: true }),
+      ])
     )
 
   return parallel(copyTypes('esm'), copyTypes('cjs'))(done)
