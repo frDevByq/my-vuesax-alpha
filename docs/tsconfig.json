@@ -20,7 +20,7 @@
     "declaration": true,
     "types": ["vite/client", "@vuepress/client/types", "../typings/components"],
     "paths": {
-      "@yqb/my-vuesax": ["../packages/vuesax-alpha"],
+      "@yqb-self/my-vuesax": ["../packages/vuesax-alpha"],
       "~/*": ["./.vuepress/theme/*"],
       "@vuesax-alpha/docs": ["./.vuepress"]
     }

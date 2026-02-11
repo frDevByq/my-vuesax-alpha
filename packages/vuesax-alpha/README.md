@@ -1,11 +1,2 @@
-# `@yqb/my-vuesax`
-
-> TODO: description
-
-## Usage
-
-```
-const vuesax = require('@yqb/my-vuesax');
-
-// TODO: DEMONSTRATE API
-```
+fork  https://github.com/vuesax-alpha/vuesax-alpha
+a vue component

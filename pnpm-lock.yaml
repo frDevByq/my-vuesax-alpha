@@ -261,7 +261,7 @@ importers:
       '@vueuse/shared':
         specifier: ^9.13.0
         version: 9.13.0(vue@3.4.27(typescript@4.9.5))
-      '@yqb/my-vuesax':
+      '@yqb-self/my-vuesax':
         specifier: workspace:*
         version: link:../packages/vuesax-alpha
       boxicons:

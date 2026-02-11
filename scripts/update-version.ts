@@ -18,16 +18,21 @@ async function main() {
   consola.log(chalk.cyan(`$TAG_VERSION: ${tagVersion}`))
   consola.log(chalk.cyan(`$GIT_HEAD: ${gitHead}`))
 
-  consola.debug(chalk.yellow(`Updating package.json for vuesax-alpha`))
+  consola.debug(chalk.yellow(`Updating package.json for @yqb-self/my-vuesax`))
 
   const pkgs = Object.fromEntries(
     (await getWorkspacePackages()).map((pkg) => [pkg.manifest.name!, pkg])
   )
-  const vuesaxAlpha = pkgs['vuesax-alpha'] || pkgs['@vuesax-alpha/nightly']
+  const vuesaxAlpha =
+    pkgs['@yqb-self/my-vuesax'] ||
+    pkgs['vuesax-alpha'] ||
+    pkgs['@vuesax-alpha/nightly']
   const eslintConfig = pkgs['@vuesax-alpha/eslint-config']
   const metadata = pkgs['@vuesax-alpha/metadata']
 
   const writeVersion = async (project: Project) => {
+    consola.success(chalk.green(`Updating ${project} version`))
+
     await project.writeProjectManifest({
       ...project.manifest,
       version: tagVersion,
