@@ -2,6 +2,7 @@
   <teleport to="body">
     <transition
       name="confirm-dialog"
+      appear
       @after-enter="afterEnter"
       @after-leave="afterLeave"
     >
@@ -257,4 +258,3 @@ watch(
   { immediate: true }
 )
 </script>
-

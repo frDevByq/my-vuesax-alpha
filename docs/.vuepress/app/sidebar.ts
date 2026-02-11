@@ -52,10 +52,12 @@ export const enSidebar: SidebarConfig = [
       { text: `Sidebar`, link: `/components/sidebar` },
       { text: `Card`, link: `/components/card` },
       { text: `Time select`, link: `/components/time-select` },
+      { text: `Date picker`, link: `/components/date-picker` },
       { text: `Scrollbar`, link: `/components/scrollbar` },
       { text: `Rate`, link: `/components/rate` },
       { text: `Badge`, link: `/components/badge` },
       { text: `Confirm Dialog`, link: `/components/confirm-dialog` },
+      { text: `Confirm Dialog Service`, link: `/components/confirm-dialog-service` },
       { text: `Edit Dialog`, link: `/components/edit-dialog` },
       { text: `Inner Loading`, link: `/components/inner-loading` },
       // new component slot 2

@@ -38,6 +38,7 @@ import {
 import { VsSwitch } from '@vuesax-alpha/components/switch'
 import { VsTable, VsTd, VsTh, VsTr } from '@vuesax-alpha/components/table'
 import { VsTimeSelect } from '@vuesax-alpha/components/time-select'
+import { VsDatePicker } from '@vuesax-alpha/components/date-picker'
 import { VsTooltip } from '@vuesax-alpha/components/tooltip'
 
 import type { Plugin } from 'vue'
@@ -84,5 +85,6 @@ export default [
   VsTh,
   VsTr,
   VsTimeSelect,
+  VsDatePicker,
   VsTooltip,
 ] as Plugin[]

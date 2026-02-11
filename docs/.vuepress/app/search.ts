@@ -183,4 +183,30 @@ export const enSearchData: SearchDataOption[] = [
       },
     ],
   },
+  {
+    title: 'Date picker',
+    path: 'components/date-picker',
+    headers: [
+      {
+        title: 'Default',
+        slug: 'default',
+      },
+      {
+        title: 'Format',
+        slug: 'format',
+      },
+      {
+        title: 'Show Time',
+        slug: 'show-time',
+      },
+      {
+        title: 'Fixed Time',
+        slug: 'fixed-time',
+      },
+      {
+        title: 'Range',
+        slug: 'range',
+      },
+    ],
+  },
 ]

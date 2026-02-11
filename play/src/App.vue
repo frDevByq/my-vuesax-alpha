@@ -9,6 +9,7 @@
           Hello
         </vs-button>
 
+
         <vs-select
           v-model="selectValue1"
           placeholder="选择一个选项"
@@ -143,6 +144,43 @@
             </div>
           </vs-option>
         </vs-select>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <h2 class="section-title">Date Picker 组件演示</h2>
+      <div class="select-grid">
+        <vs-date-picker
+          v-model:value="dateValue"
+          label="日期"
+        >
+          <template #icon>
+            <icon-lucide-calendar />
+          </template>
+        </vs-date-picker>
+
+        <vs-date-picker
+          v-model:value="dateValueFixed"
+          format="yyyy-MM-dd HH:mm:ss"
+          label="时间选择"
+          :fixed-time="{ second: '00' }"
+        />
+
+        <vs-date-picker
+          v-model:value="dateValueNoTime"
+          format="yyyy-MM-dd"
+          :show-time="false"
+          :time-zero="true"
+          label="仅日期"
+        />
+
+        <vs-date-picker
+          range
+          v-model:start-time="rangeStart"
+          v-model:end-time="rangeEnd"
+          format="yyyy-MM-dd HH:mm:ss"
+          label="范围选择"
+        />
       </div>
     </div>
 
@@ -362,6 +400,7 @@ import IconLucideBriefcase from '~icons/lucide/briefcase'
 import IconLucideCheckCircle from '~icons/lucide/check-circle'
 import IconLucideAlertCircle from '~icons/lucide/alert-circle'
 import IconLucideInfo from '~icons/lucide/info'
+import IconLucideCalendar from '~icons/lucide/calendar'
 
 type DialogType = 'success' | 'error' | 'warning' | 'info' | 'danger'
 
@@ -430,6 +469,12 @@ const selectValue3 = ref<string[]>([])
 const selectValue4 = ref('')
 const selectValue5 = ref('')
 const selectValue6 = ref('')
+
+const dateValue = ref('')
+const dateValueFixed = ref('')
+const dateValueNoTime = ref('')
+const rangeStart = ref('')
+const rangeEnd = ref('')
 
 // Edit Dialog
 const editDialogVisible = ref(false)

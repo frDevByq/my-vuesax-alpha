@@ -60,6 +60,7 @@ export const enNavbar: NavbarConfig = [
           { text: 'Sidebar', link: `/components/sidebar` },
           { text: 'Card', link: `/components/card` },
           { text: 'Time select', link: `/components/time-select` },
+          { text: 'Date picker', link: `/components/date-picker` },
           // new component slot 1
         ],
       },

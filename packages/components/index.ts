@@ -31,6 +31,7 @@ export * from './slot'
 export * from './switch'
 export * from './table'
 export * from './time-select'
+export * from './date-picker'
 export * from './tooltip'
 
 // plugins
