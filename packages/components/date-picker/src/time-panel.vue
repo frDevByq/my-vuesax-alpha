@@ -220,7 +220,7 @@ const handleMinuteFilter = (value: string) => {
         ...props.modelValue,
         minute: next,
       }),
-    showSecond.value ? secondSelectRef : undefined
+    props.showSecond ? secondSelectRef : undefined
   )
 }
 

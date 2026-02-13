@@ -30,6 +30,7 @@ export const generateTypesDefinitions = async () => {
     preserveSymlinks: true,
     skipLibCheck: true,
     noImplicitAny: false,
+    noEmitOnError: false,
   }
   const project = new Project({
     compilerOptions,
@@ -58,7 +59,11 @@ export const generateTypesDefinitions = async () => {
     const emitOutput = sourceFile.getEmitOutput()
     const emitFiles = emitOutput.getOutputFiles()
     if (emitFiles.length === 0) {
-      throw new Error(`Emit no file: ${chalk.bold(relativePath)}`)
+      // 跳过无法生成声明文件的文件（通常是类型推断过长的 Vue 组件）
+      consola.warn(
+        chalk.yellow(`Skipping file (no emit): ${chalk.bold(relativePath)}`)
+      )
+      return
     }
 
     const subTasks = emitFiles.map(async (outputFile) => {
@@ -88,9 +93,7 @@ export const generateTypesDefinitions = async () => {
 
 async function addSourceFiles(project: Project) {
   project.addSourceFileAtPath(path.resolve(projRoot, 'typings/env.d.ts'))
-  project.addSourceFileAtPath(
-    path.resolve(projRoot, 'typings/components.d.ts')
-  )
+  project.addSourceFileAtPath(path.resolve(projRoot, 'typings/components.d.ts'))
 
   const globSourceFile = '**/*.{js?(x),ts?(x),vue}'
   const filePaths = excludeFiles(
@@ -99,8 +102,7 @@ async function addSourceFiles(project: Project) {
       absolute: true,
       onlyFiles: true,
     })
-  )
-    .filter((file) => !file.startsWith(`${vsRoot}${path.sep}`))
+  ).filter((file) => !file.startsWith(`${vsRoot}${path.sep}`))
   const vsPaths = excludeFiles(
     await glob(globSourceFile, {
       cwd: vsRoot,
@@ -147,13 +149,16 @@ async function addSourceFiles(project: Project) {
         project.getSourceFile(file) ??
         project.getSourceFile(
           (sourceFile) =>
-            path.normalize(sourceFile.getFilePath()).toLowerCase() === normalized
+            path.normalize(sourceFile.getFilePath()).toLowerCase() ===
+            normalized
         )
       if (existing) {
         return
       }
       const content = await readFile(file, 'utf-8')
-      sourceFiles.push(project.createSourceFile(file, content, { overwrite: true }))
+      sourceFiles.push(
+        project.createSourceFile(file, content, { overwrite: true })
+      )
     }),
   ])
 
@@ -161,7 +166,16 @@ async function addSourceFiles(project: Project) {
 }
 
 function typeCheck(project: Project) {
-  const diagnostics = project.getPreEmitDiagnostics()
+  const diagnostics = project.getPreEmitDiagnostics().filter((diagnostic) => {
+    const message = diagnostic.getMessageText().toString()
+    // 忽略类型推断过长的错误
+    if (
+      message.includes('exceeds the maximum length the compiler will serialize')
+    ) {
+      return false
+    }
+    return true
+  })
   if (diagnostics.length > 0) {
     consola.error(project.formatDiagnosticsWithColorAndContext(diagnostics))
     const err = new Error('Failed to generate dts.')

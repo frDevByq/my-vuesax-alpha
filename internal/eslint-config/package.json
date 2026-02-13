@@ -1,6 +1,6 @@
 {
   "name": "@vuesax-alpha/eslint-config",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "ESLint Config",
   "license": "MIT",
   "files": [
@@ -33,5 +33,5 @@
   "devDependencies": {
     "eslint": "^8.18.0"
   },
-  "gitHead": "f9c57221cab22fe1dc4833a632dfe0ee2a17e077"
+  "gitHead": "3fb33b2147b3d205cb2b61c57a3507a6112439fe"
 }

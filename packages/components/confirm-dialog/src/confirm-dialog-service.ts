@@ -6,16 +6,16 @@ import type { ConfirmDialogEmits, ConfirmDialogProps } from './confirm-dialog'
 
 export type ConfirmDialogContent = string | VNode
 
-export type ConfirmDialogServiceOptions =
-  & Partial<Omit<ConfirmDialogProps, 'modelValue' | 'title' | 'description'>>
-  & {
-    title?: ConfirmDialogContent
-    content?: ConfirmDialogContent
-    description?: ConfirmDialogContent
-    onConfirm?: ConfirmDialogEmits['confirm']
-    onCancel?: ConfirmDialogEmits['cancel']
-    onClose?: ConfirmDialogEmits['close']
-  }
+export type ConfirmDialogServiceOptions = Partial<
+  Omit<ConfirmDialogProps, 'modelValue' | 'title' | 'description'>
+> & {
+  title?: ConfirmDialogContent
+  content?: ConfirmDialogContent
+  description?: ConfirmDialogContent
+  onConfirm?: ConfirmDialogEmits['confirm']
+  onCancel?: ConfirmDialogEmits['cancel']
+  onClose?: ConfirmDialogEmits['close']
+}
 
 export interface ConfirmDialogServiceHandle {
   close: () => void
@@ -28,18 +28,12 @@ export const confirmDialogService = (
   if (!isClient) {
     return {
       close: () => undefined,
+      setConfirmLoading: () => undefined,
     }
   }
 
-  const {
-    title,
-    content,
-    description,
-    onConfirm,
-    onCancel,
-    onClose,
-    ...rest
-  } = options
+  const { title, content, description, onConfirm, onCancel, onClose, ...rest } =
+    options
 
   const resolvedContent = content ?? description
 
@@ -54,9 +48,14 @@ export const confirmDialogService = (
     container.remove()
   }
 
-  const props = reactive({
+  const props: any = reactive({
     ...rest,
     modelValue: true,
+    title: title && !isVNode(title) ? title : undefined,
+    description:
+      resolvedContent && !isVNode(resolvedContent)
+        ? resolvedContent
+        : undefined,
     onConfirm,
     onCancel,
     onClose: () => {
@@ -66,18 +65,7 @@ export const confirmDialogService = (
     'onUpdate:modelValue': (value: boolean) => {
       props.modelValue = value
     },
-  } as ConfirmDialogProps & {
-    'onUpdate:modelValue': (value: boolean) => void
-    onClose: () => void
   })
-
-  if (title !== undefined && !isVNode(title)) {
-    props.title = title
-  }
-
-  if (resolvedContent !== undefined && !isVNode(resolvedContent)) {
-    props.description = resolvedContent
-  }
 
   const slots: Record<string, () => VNode> = {}
 
