@@ -136,20 +136,19 @@
         :for="inputId"
         :class="[
           ns.e('label'),
-          ns.is(
-            'placeholder',
-            labelFloat &&
-              !dropMenuVisible &&
-              (isEqual(modelValue, notValue) ||
-                (!modelValue && modelValue != 0))
-          ),
+          ns.is('placeholder', isLabelPlaceholder),
         ]"
       >
         <slot name="label">{{ label }}</slot>
       </label>
 
       <span
-        v-if="!multiple && !labelFloat && states.currentPlaceholder"
+        v-if="
+          !multiple &&
+          !hasLabelFloat &&
+          !hasLabelFloatNospace &&
+          states.currentPlaceholder
+        "
         :class="[ns.e('placeholder'), ns.is('hidden', !!modelValue)]"
       >
         {{ states.currentPlaceholder }}
@@ -277,6 +276,24 @@ const colorCssVar = computed(() =>
   })
 )
 
+const hasLabelFloat = computed(() => props.labelFloat || props.floatLabel)
+const hasLabelFloatNospace = computed(
+  () => props.labelFloatNospace || props.floatLabelNoSpace
+)
+
+const isValueEmpty = computed(
+  () =>
+    isEqual(props.modelValue, props.notValue) ||
+    (!props.modelValue && props.modelValue != 0)
+)
+const isLabelPlaceholder = computed(
+  () =>
+    (hasLabelFloat.value || hasLabelFloatNospace.value) &&
+    !dropMenuVisible.value &&
+    !states.softFocus &&
+    isValueEmpty.value
+)
+
 const optionsAnimation = computed(() => ns.b())
 
 const {
@@ -359,7 +376,8 @@ const selectKls = computed(() => [
   ns.is('loading', props.loading),
   ns.is('has-icon', !!slots.icon),
   ns.is(popperRef.value?.popperPlacement ?? 'bottom'),
-  { [ns.m('has-label')]: props.label || props.labelFloat },
+  { [ns.m('has-label')]: props.label || hasLabelFloat.value },
+  { [ns.m('label-float-nospace')]: hasLabelFloatNospace.value },
   { [ns.is(props.inputStyle)]: !!props.inputStyle },
 ])
 

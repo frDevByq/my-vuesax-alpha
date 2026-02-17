@@ -14,6 +14,7 @@
           v-model="selectValue1"
           label="基础选择器（icon 插槽）"
           block
+          float-label
           color="primary"
         >
 
@@ -31,8 +32,8 @@
 
         <vs-select
           v-model="selectValue2"
-          placeholder="可搜索选择器"
-          label="可搜索"
+          label="可搜索（float-label-no-space）"
+          float-label-no-space
           block
           filter
           color="success"
@@ -46,7 +47,6 @@
 
         <vs-select
           v-model="selectValue3"
-          placeholder="选择多个"
           label="多选"
           block
           multiple
@@ -61,7 +61,6 @@
 
         <vs-select
           v-model="selectValue4"
-          placeholder="带状态的选择器"
           label="状态选择器"
           block
           state="danger"
@@ -74,7 +73,6 @@
 
         <vs-select
           v-model="selectValue5"
-          placeholder="选择状态"
           label="自定义插槽选项"
           block
           color="primary"
@@ -107,7 +105,7 @@
 
         <vs-select
           v-model="selectValue6"
-          placeholder="选择你的角色"
+          label="选择你的角色"
           block
           color="success"
         >

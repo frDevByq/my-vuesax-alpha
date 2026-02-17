@@ -404,6 +404,18 @@ $iconActiveMargin: -4px;
   @include m(has-label) {
     margin-top: 24px !important;
   }
+  @include m(label-float-nospace) {
+    margin-top: 0 !important;
+
+    @include e(label) {
+      left: getCssVar(select-label-left);
+      max-width: calc(100% - getCssVar(select-label-left));
+
+      @include when(placeholder) {
+        left: getCssVar(select-label-left);
+      }
+    }
+  }
 
   @include e(option) {
     @include flex(flex-start, center);
@@ -471,6 +483,14 @@ $iconActiveMargin: -4px;
     }
     @include e(placeholder) {
       transform: translateY(calc(-50% - 4px));
+    }
+  }
+  @include when(focus) {
+    @include e(label) {
+      &:not(.is-placeholder) {
+        left: getCssVar(select-label-left);
+        max-width: calc(100% - getCssVar(select-label-left));
+      }
     }
   }
   @include when(open) {
@@ -567,8 +587,21 @@ $iconActiveMargin: -4px;
       padding-left: 36px;
     }
     @include e(label) {
-      left: calc(getCssVar(select-label-left) + 23px);
-      max-width: calc(100% - getCssVar(select-label-left) - 23px);
+      left: getCssVar(select-label-left);
+      max-width: calc(100% - getCssVar(select-label-left));
+
+      &.is-placeholder {
+        left: calc(getCssVar(select-label-left) + 23px);
+        max-width: calc(100% - getCssVar(select-label-left) - 23px);
+      }
+    }
+    @include when(focus) {
+      @include e(label) {
+        &:not(.is-placeholder) {
+          left: calc(getCssVar(select-label-left) + 23px);
+          max-width: calc(100% - getCssVar(select-label-left) - 23px);
+        }
+      }
     }
     @include e(placeholder) {
       left: calc(getCssVar(select-label-left) + 23px);

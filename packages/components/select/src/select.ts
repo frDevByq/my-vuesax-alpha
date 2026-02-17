@@ -113,7 +113,34 @@ export const selectProps = buildProps({
   /**
    * @description label is placeholder when input empty
    */
-  labelFloat: { type: Boolean },
+  labelFloat: {
+    type: Boolean,
+    default: false,
+  },
+
+  /**
+   * @description label float without taking up space (absolute positioning)
+   */
+  labelFloatNospace: {
+    type: Boolean,
+    default: false,
+  },
+
+  /**
+   * @description alias of labelFloat
+   */
+  floatLabel: {
+    type: Boolean,
+    default: false,
+  },
+
+  /**
+   * @description alias of labelFloatNospace
+   */
+  floatLabelNoSpace: {
+    type: Boolean,
+    default: false,
+  },
 
   /**
    * @description a label above the component.
