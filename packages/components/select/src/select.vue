@@ -101,6 +101,10 @@
         />
       </div>
 
+      <span v-if="$slots.icon" :class="ns.e('icon')">
+        <slot name="icon" />
+      </span>
+
       <input
         :id="inputId"
         ref="reference"
@@ -220,7 +224,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, provide, reactive, toRef } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  provide,
+  reactive,
+  toRef,
+  useSlots,
+} from 'vue'
 import { toRefs, unrefElement, useResizeObserver } from '@vueuse/core'
 import { isEqual } from 'lodash-unified'
 import { ClickOutside as vClickOutside } from '@vuesax-alpha/directives'
@@ -253,6 +265,7 @@ const messageTypes = ['success', 'warn', 'danger', 'primary', 'dark']
 const props = defineProps(selectProps)
 const emit = defineEmits(selectEmits)
 const ns = useNamespace('select')
+const slots = useSlots()
 
 const states = useSelectStates(props)
 
@@ -344,8 +357,10 @@ const selectKls = computed(() => [
   ns.is('disabled', selectDisabled.value),
   ns.is('multiple', props.multiple),
   ns.is('loading', props.loading),
+  ns.is('has-icon', !!slots.icon),
   ns.is(popperRef.value?.popperPlacement ?? 'bottom'),
   { [ns.m('has-label')]: props.label || props.labelFloat },
+  { [ns.is(props.inputStyle)]: !!props.inputStyle },
 ])
 
 const selectStyle = computed(() => [colorCssVar.value])

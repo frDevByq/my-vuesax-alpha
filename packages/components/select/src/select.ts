@@ -97,6 +97,15 @@ export const selectProps = buildProps({
    */
   block: { type: Boolean },
   /**
+   * @description select style
+   * @enum `border` | `shadow` | `transparent`
+   */
+  inputStyle: {
+    type: String,
+    values: ['border', 'shadow', 'transparent'] as const,
+    default: 'border',
+  },
+  /**
    * @description hide scrollbar
    */
   hideScrollbar: { type: Boolean },

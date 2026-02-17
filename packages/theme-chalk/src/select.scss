@@ -154,6 +154,64 @@ $iconActiveMargin: -4px;
     }
   }
 
+  @include when(border) {
+    @include e(input) {
+      background: transparent;
+      border-color: #d2d2d2;
+    }
+    @include e(chips) {
+      background: transparent;
+      border-color: #d2d2d2;
+    }
+    @include e(selected-display) {
+      background: transparent;
+      border-color: #d2d2d2;
+    }
+    @include when(open) {
+      @include e(input) {
+        background: getColor('background');
+      }
+      @include e(chips) {
+        background: getColor('background');
+      }
+    }
+  }
+
+  @include when(shadow) {
+    @include e(input) {
+      border: 1px solid transparent;
+      box-shadow: 0px 6px 25px -6px rgba(0, 0, 0, getCssVar('shadow-opacity'));
+    }
+    @include e(chips) {
+      border: 1px solid transparent;
+      box-shadow: 0px 6px 25px -6px rgba(0, 0, 0, getCssVar('shadow-opacity'));
+    }
+    @include e(selected-display) {
+      border: 1px solid transparent;
+      box-shadow: 0px 6px 25px -6px rgba(0, 0, 0, getCssVar('shadow-opacity'));
+    }
+    @include when(open) {
+      @include e(input) {
+        box-shadow: 0px 5px 25px -4px rgba(0, 0, 0, getCssVar('shadow-opacity'));
+      }
+      @include e(chips) {
+        box-shadow: 0px 5px 25px -4px rgba(0, 0, 0, getCssVar('shadow-opacity'));
+      }
+    }
+  }
+
+  @include when(transparent) {
+    @include e(input) {
+      background: transparent !important;
+    }
+    @include e(chips) {
+      background: transparent !important;
+    }
+    @include e(selected-display) {
+      background: transparent !important;
+    }
+  }
+
   @include when(loading) {
     pointer-events: none;
     *:not(.#{$namespace}-select__loading):not(.#{$namespace}-select__label) {
@@ -184,6 +242,18 @@ $iconActiveMargin: -4px;
     transform: translateY(-50%);
     transition: getCssVar(transition-ease);
     cursor: pointer;
+  }
+  @include e(icon) {
+    @include flex(center, center);
+
+    position: absolute;
+    z-index: 2;
+    color: getColor(text, 0.6);
+    left: 12px;
+    top: 20px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: getCssVar(transition-ease);
   }
   @include e(clearable) {
     @include set-var-value(color, getCssVar(text));
@@ -485,6 +555,24 @@ $iconActiveMargin: -4px;
   @include when(block) {
     width: 100%;
     max-width: unset;
+  }
+  @include when(has-icon) {
+    @include e(input) {
+      padding-left: 36px;
+    }
+    @include e(chips) {
+      padding-left: 28px;
+    }
+    @include e(selected-display) {
+      padding-left: 36px;
+    }
+    @include e(label) {
+      left: calc(getCssVar(select-label-left) + 23px);
+      max-width: calc(100% - getCssVar(select-label-left) - 23px);
+    }
+    @include e(placeholder) {
+      left: calc(getCssVar(select-label-left) + 23px);
+    }
   }
   @include e(options) {
     transition: getCssVar(transition-ease);

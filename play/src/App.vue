@@ -12,11 +12,17 @@
 
         <vs-select
           v-model="selectValue1"
-          placeholder="选择一个选项"
-          label="基础选择器"
+          label="基础选择器（icon 插槽）"
           block
           color="primary"
         >
+
+          <template #icon>
+            <icon-lucide-check-circle
+              style="width: 16px; height: 16px; color: #10b981"
+            />
+          </template>
+
           <vs-option value="option1" label="选项 1" />
           <vs-option value="option2" label="选项 2" />
           <vs-option value="option3" label="选项 3" />
@@ -570,7 +576,7 @@ const handleEditCancel = () => {
   align-items: center;
   justify-content: flex-start;
   padding: 40px;
-  background: white;
+  background: #fafafa;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
   gap: 60px;
