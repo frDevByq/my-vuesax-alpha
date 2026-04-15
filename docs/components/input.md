@@ -161,6 +161,22 @@ PROPS:
     link: null
     usage: '#progress'
 
+  - name: wrap-classes
+    type: string
+    values: className
+    description: custom class name for the input wrapper element.
+    default: null
+    link: null
+    usage: '#default'
+
+  - name: wrap-styles
+    type: string, object, array
+    values: StyleValue
+    description: custom inline styles for the input wrapper element.
+    default: null
+    link: null
+    usage: '#default'
+
 SLOTS:
   - name: icon
     type: Slot

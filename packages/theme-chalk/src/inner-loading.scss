@@ -55,26 +55,47 @@
 
 .inner-loading-fade-enter-active,
 .inner-loading-fade-leave-active {
-  transition: opacity 0.2s ease;
+  transition:
+    opacity 0.25s ease,
+    filter 0.25s ease;
 }
 
 .inner-loading-fade-enter-from,
 .inner-loading-fade-leave-to {
   opacity: 0;
+  filter: blur(8px);
+}
+
+.inner-loading-fade-enter-to,
+.inner-loading-fade-leave-from {
+  opacity: 1;
+  filter: blur(0);
 }
 
 .inner-loading-content-enter-active {
-  transition: opacity 0.2s ease;
+  transition:
+    opacity 0.25s ease,
+    filter 0.25s ease;
 }
 
 .inner-loading-content-leave-active {
-  transition: opacity 0.2s ease;
+  transition:
+    opacity 0.25s ease,
+    filter 0.25s ease;
 }
 
 .inner-loading-content-enter-from {
   opacity: 0.4;
+  filter: blur(8px);
 }
 
 .inner-loading-content-leave-to {
   opacity: 0.4;
+  filter: blur(8px);
+}
+
+.inner-loading-content-enter-to,
+.inner-loading-content-leave-from {
+  opacity: 1;
+  filter: blur(0);
 }

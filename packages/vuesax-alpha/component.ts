@@ -10,6 +10,7 @@ import { VsConfirmDialog } from '@vuesax-alpha/components/confirm-dialog'
 import { VsDialog } from '@vuesax-alpha/components/dialog'
 import { VsEditDialog } from '@vuesax-alpha/components/edit-dialog'
 import { VsIcon } from '@vuesax-alpha/components/icon'
+import { VsInfoDialog } from '@vuesax-alpha/components/info-dialog'
 import { VsInput } from '@vuesax-alpha/components/input'
 import { VsInputNumber } from '@vuesax-alpha/components/input-number'
 import { VsInnerLoading } from '@vuesax-alpha/components/inner-loading'
@@ -60,6 +61,7 @@ export default [
   VsDialog,
   VsEditDialog,
   VsIcon,
+  VsInfoDialog,
   VsInput,
   VsInputNumber,
   VsInnerLoading,

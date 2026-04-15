@@ -1,6 +1,10 @@
 import { createApp } from 'vue'
 import '@vuesax-alpha/theme-chalk/src/dark/css-vars.scss'
 import '@vuesax-alpha/theme-chalk/src/loading.scss'
+import '@vuesax-alpha/theme-chalk/src/inner-loading.scss'
+import '@vuesax-alpha/components/confirm-dialog/style'
+import '@vuesax-alpha/components/edit-dialog/style'
+import '@vuesax-alpha/components/info-dialog/style'
 import { createRouter, createWebHashHistory } from 'vue-router'
 ;(async () => {
   const apps = import.meta.glob('./src/*.vue')

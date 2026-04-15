@@ -152,6 +152,125 @@
     </div>
 
     <div class="demo-section">
+      <h2 class="section-title">Input 组件演示</h2>
+      <div class="input-grid">
+        <div class="input-demo-card">
+          <vs-input
+            v-model="inputBorder"
+            label="Border（默认）"
+            placeholder="请输入用户名"
+            input-style="border"
+            label-float
+            clearable
+            block
+            color="primary"
+          >
+            <template #icon>
+              <icon-lucide-user />
+            </template>
+          </vs-input>
+        </div>
+
+        <div class="input-demo-card">
+          <vs-input
+            v-model="inputShadow"
+            label="Shadow + Icon After"
+            placeholder="请输入邮箱"
+            input-style="shadow"
+            icon-after
+            label-float
+            block
+            color="success"
+          >
+            <template #icon>
+              <icon-lucide-mail />
+            </template>
+          </vs-input>
+        </div>
+
+        <div class="input-demo-card input-demo-card--dark">
+          <vs-input
+            v-model="inputTransparent"
+            label="Transparent + Text White"
+            placeholder="透明风格输入"
+            input-style="transparent"
+            label-float-nospace
+            text-white
+            clearable
+            block
+            color="primary"
+          />
+        </div>
+
+        <div class="input-demo-card">
+          <vs-input
+            v-model="inputSquare"
+            label="Square + State"
+            placeholder="危险状态示例"
+            shape="square"
+            state="danger"
+            label-float
+            block
+          />
+        </div>
+
+        <div class="input-demo-card">
+          <vs-input
+            v-model="inputPassword"
+            type="password"
+            label="Show Password"
+            placeholder="请输入密码"
+            show-password
+            label-float
+            block
+            color="warn"
+          >
+            <template #icon>
+              <icon-lucide-lock />
+            </template>
+          </vs-input>
+        </div>
+
+        <div class="input-demo-card">
+          <vs-input
+            v-model="inputLoading"
+            label="Loading + Progress"
+            placeholder="输入会显示进度条"
+            :loading="true"
+            :progress="70"
+            state="success"
+            label-float
+            clearable
+            block
+          />
+        </div>
+
+        <div class="input-demo-card">
+          <vs-input
+            v-model="inputGraySoft"
+            label="Soft Gray（无边框）"
+            placeholder="无边框灰底输入"
+            input-style="transparent"
+            wrap-classes="input-soft-gray-no-focus"
+            label-float
+            clearable
+            block
+            :wrap-styles="{
+              background: '#f1f5f9',
+              border: 'none',
+              boxShadow: 'none',
+              borderRadius: '10px',
+            }"
+          >
+            <template #icon>
+              <icon-lucide-search />
+            </template>
+          </vs-input>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-section">
       <h2 class="section-title">Date Picker 组件演示</h2>
       <div class="select-grid">
         <vs-date-picker
@@ -389,6 +508,74 @@
         </div>
       </template>
     </vs-edit-dialog>
+
+    <!-- Info Dialog 测试 -->
+    <div style="margin-top: 40px; text-align: center">
+      <h2
+        style="
+          font-size: 20px;
+          font-weight: 700;
+          color: #0f172a;
+          margin-bottom: 20px;
+        "
+      >
+        Info Dialog 测试
+      </h2>
+      <div style="display: flex; gap: 16px; justify-content: center">
+        <vs-button color="primary" @click="openInfoDialog('default')">
+          打开默认信息弹窗
+        </vs-button>
+        <vs-button color="success" @click="openInfoDialog('custom')">
+          打开自定义信息弹窗
+        </vs-button>
+        <vs-button color="warn" @click="infoDialogLoading = !infoDialogLoading">
+          切换 Loading
+        </vs-button>
+        <vs-button
+          color="primary"
+          type="flat"
+          @click="infoDialogShowCancel = !infoDialogShowCancel"
+        >
+          切换取消按钮
+        </vs-button>
+        <vs-button
+          color="success"
+          type="flat"
+          @click="infoDialogShowConfirm = !infoDialogShowConfirm"
+        >
+          切换确认按钮
+        </vs-button>
+      </div>
+    </div>
+
+    <vs-info-dialog
+      v-model="infoDialogVisible"
+      :loading="infoDialogLoading"
+      :color="infoDialogColor"
+      :min-width="infoDialogMinWidth"
+      :show-cancel="infoDialogShowCancel"
+      :show-confirm="infoDialogShowConfirm"
+      @cancel="handleInfoDialogCancel"
+      @confirm="handleInfoDialogConfirm"
+    >
+      <template #icon v-if="infoDialogCustom">
+        <icon-lucide-alert-circle />
+      </template>
+
+      <template #title>
+        <span v-if="infoDialogCustom">系统维护通知</span>
+        <span v-else>默认信息提示</span>
+      </template>
+
+      <template #default>
+        <div v-if="infoDialogCustom">
+          当前服务将在今晚 23:30 - 23:50 进行升级维护，请提前保存数据。
+        </div>
+        <div v-else>
+          这是一个基础信息弹窗演示，支持 loading、颜色和最小宽度配置。
+        </div>
+      </template>
+    </vs-info-dialog>
   </div>
 </template>
 
@@ -396,6 +583,7 @@
 import { ref } from 'vue'
 import { VsConfirmDialog } from '@vuesax-alpha/components/confirm-dialog'
 import { VsEditDialog } from '@vuesax-alpha/components/edit-dialog'
+import { VsInfoDialog } from '@vuesax-alpha/components/info-dialog'
 import { VsLoadingFn } from '@vuesax-alpha/components/loading'
 import { VsInnerLoading } from '@vuesax-alpha/components/inner-loading'
 import IconLucideUser from '~icons/lucide/user'
@@ -405,6 +593,8 @@ import IconLucideCheckCircle from '~icons/lucide/check-circle'
 import IconLucideAlertCircle from '~icons/lucide/alert-circle'
 import IconLucideInfo from '~icons/lucide/info'
 import IconLucideCalendar from '~icons/lucide/calendar'
+import IconLucideLock from '~icons/lucide/lock'
+import IconLucideSearch from '~icons/lucide/search'
 
 type DialogType = 'success' | 'error' | 'warning' | 'info' | 'danger'
 
@@ -474,6 +664,15 @@ const selectValue4 = ref('')
 const selectValue5 = ref('')
 const selectValue6 = ref('')
 
+// Input values
+const inputBorder = ref('')
+const inputShadow = ref('hello@vuesax.dev')
+const inputTransparent = ref('')
+const inputSquare = ref('删除前请再次确认')
+const inputPassword = ref('')
+const inputLoading = ref('正在校验输入内容')
+const inputGraySoft = ref('')
+
 const dateValue = ref('')
 const dateValueFixed = ref('')
 const dateValueNoTime = ref('')
@@ -488,6 +687,13 @@ const editDialogData = ref<FormData>({
   email: 'alex.m@design.com',
   position: '高级产品设计师',
 })
+const infoDialogVisible = ref(false)
+const infoDialogLoading = ref(false)
+const infoDialogColor = ref('#3b82f6')
+const infoDialogMinWidth = ref('360px')
+const infoDialogCustom = ref(false)
+const infoDialogShowCancel = ref(true)
+const infoDialogShowConfirm = ref(true)
 
 const openDialog = (type: DialogType) => {
   const config = modalConfigs.find((c) => c.type === type)
@@ -564,6 +770,26 @@ const handleEditConfirm = (
 const handleEditCancel = () => {
   console.log('取消编辑')
 }
+
+const openInfoDialog = (mode: 'default' | 'custom') => {
+  infoDialogCustom.value = mode === 'custom'
+  infoDialogVisible.value = true
+  if (mode === 'custom') {
+    infoDialogColor.value = '#10b981'
+    infoDialogMinWidth.value = '460px'
+    return
+  }
+  infoDialogColor.value = '#3b82f6'
+  infoDialogMinWidth.value = '360px'
+}
+
+const handleInfoDialogCancel = () => {
+  console.log('关闭 info dialog')
+}
+
+const handleInfoDialogConfirm = () => {
+  console.log('确认 info dialog')
+}
 </script>
 
 <style lang="scss">
@@ -616,6 +842,45 @@ const handleEditCancel = () => {
     @media (max-width: 768px) {
       max-width: 100%;
     }
+  }
+}
+
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.input-demo-card {
+  padding: 20px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+}
+
+.input-demo-card--dark {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border-color: #334155;
+}
+
+.input-soft-gray-no-focus {
+  .vs-input__affects {
+    display: none;
+  }
+
+  .vs-input__original {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .vs-input__original:focus,
+  .vs-input__original:hover:not(:focus) {
+    border-color: transparent !important;
+    box-shadow: none !important;
   }
 }
 

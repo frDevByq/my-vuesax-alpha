@@ -1,0 +1,149 @@
+.info-dialog-enter-active {
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  .info-dialog-container {
+    animation: info-dialog-bounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+}
+
+.info-dialog-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  .info-dialog-container {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+.info-dialog-enter-from,
+.info-dialog-leave-to {
+  opacity: 0;
+
+  .info-dialog-container {
+    transform: scale(0.8) rotate(-2deg);
+    opacity: 0;
+  }
+}
+
+@keyframes info-dialog-bounce {
+  0% {
+    transform: scale(0.5) rotate(-5deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05) rotate(1deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.info-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(15, 23, 42, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.info-dialog-container {
+  position: relative;
+  width: 100%;
+  min-width: var(--info-dialog-min-width, 360px);
+  max-width: min(560px, 100%);
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 24px 64px -24px rgba(15, 23, 42, 0.3);
+  padding: 48px 28px 28px;
+}
+
+.info-dialog-icon-wrapper {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.info-dialog-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+
+  svg {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+.info-dialog-content {
+  width: 100%;
+  text-align: center;
+}
+
+.info-dialog-title {
+  margin: 0 0 10px;
+  color: #0f172a;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.info-dialog-description {
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.info-dialog-actions {
+  margin-top: 18px;
+  display: flex;
+  gap: 10px;
+}
+
+.info-dialog-btn-cancel,
+.info-dialog-btn-confirm {
+  flex: 1;
+  border-radius: 9999px !important;
+}
+
+.info-dialog-loading-text {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.info-dialog-close {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  color: #94a3b8 !important;
+}
+
+@media (max-width: 640px) {
+  .info-dialog-overlay {
+    padding: 16px;
+  }
+
+  .info-dialog-container {
+    min-width: 0;
+    padding: 46px 20px 22px;
+  }
+
+  .info-dialog-icon {
+    width: 64px;
+    height: 64px;
+
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "@vuesax-alpha/metadata",
-  "version": "1.0.8",
+  "version": "1.0.11",
   "description": "Metadata for Vuesax Alpha",
   "keywords": [
     "vuesax-alpha"
@@ -31,5 +31,5 @@
     "octokit": "^2.1.0",
     "tsx": "^4.7.1"
   },
-  "gitHead": "e547c47d575d80eb38acbc82fa2fe59dfc3142b6"
+  "gitHead": "b2e58d4247ac1c9e48c52b2198392d482014bf8a"
 }
