@@ -1,5 +1,82 @@
 <template>
-  <div class="play-container">
+  <vs-config-provider :default-input-style="defaultInputStyle">
+    <div class="play-container">
+      <div class="demo-section">
+        <h2 class="section-title">输入风格切换</h2>
+        <div class="style-switcher">
+          <vs-button
+            :type="defaultInputStyle === 'soft' ? 'filled' : 'flat'"
+            color="primary"
+            @click="defaultInputStyle = 'soft'"
+          >
+            灰底无边框
+          </vs-button>
+          <vs-button
+            :type="defaultInputStyle === 'border' ? 'filled' : 'flat'"
+            color="dark"
+            @click="defaultInputStyle = 'border'"
+          >
+            边框
+          </vs-button>
+        </div>
+        <div class="input-grid">
+          <div class="input-demo-card">
+            <vs-input
+              v-model="globalInputValue"
+              label="账号"
+              placeholder="请输入账号"
+              label-float
+              clearable
+              block
+            >
+              <template #icon>
+                <icon-lucide-user />
+              </template>
+            </vs-input>
+          </div>
+
+          <div class="input-demo-card">
+            <vs-select
+              v-model="globalSelectValue"
+              label="部门"
+              placeholder="请选择部门"
+              block
+              filter
+            >
+              <vs-option value="product" label="产品" />
+              <vs-option value="engineering" label="研发" />
+              <vs-option value="design" label="设计" />
+              <vs-option value="operations" label="运营" />
+            </vs-select>
+          </div>
+
+          <div class="input-demo-card">
+            <vs-input
+              v-model="localBorderValue"
+              label="手机号"
+              placeholder="本项固定边框"
+              input-style="border"
+              label-float
+              block
+            />
+          </div>
+
+          <div class="input-demo-card">
+            <vs-select
+              v-model="localSoftSelectValue"
+              label="城市"
+              placeholder="本项固定灰底"
+              input-style="soft"
+              block
+            >
+              <vs-option value="shanghai" label="上海" />
+              <vs-option value="hangzhou" label="杭州" />
+              <vs-option value="shenzhen" label="深圳" />
+            </vs-select>
+          </div>
+        </div>
+      </div>
+
     <!-- Select 演示区域 -->
     <div class="demo-section select-demo">
       <h2 class="section-title">Select 组件演示</h2>
@@ -250,17 +327,10 @@
             v-model="inputGraySoft"
             label="Soft Gray（无边框）"
             placeholder="无边框灰底输入"
-            input-style="transparent"
-            wrap-classes="input-soft-gray-no-focus"
+            input-style="soft"
             label-float
             clearable
             block
-            :wrap-styles="{
-              background: '#f1f5f9',
-              border: 'none',
-              boxShadow: 'none',
-              borderRadius: '10px',
-            }"
           >
             <template #icon>
               <icon-lucide-search />
@@ -268,6 +338,18 @@
           </vs-input>
         </div>
       </div>
+    </div>
+
+    <div class="demo-section">
+      <h2 class="section-title">多行文本演示</h2>
+      <vs-textarea
+        v-model="multilineText"
+        label="订单备注"
+        placeholder="请输入备注内容"
+        input-style="soft"
+        :autosize="{ minRows: 4, maxRows: 8 }"
+        block
+      />
     </div>
 
     <div class="demo-section">
@@ -305,6 +387,42 @@
           label="范围选择"
         />
       </div>
+    </div>
+
+    <div class="demo-section">
+      <h2 class="section-title">Table 组件演示</h2>
+      <vs-table v-model="selectedMember" striped>
+        <template #thead>
+          <vs-tr>
+            <vs-th>订单号</vs-th>
+            <vs-th>客户</vs-th>
+            <vs-th>下单时间</vs-th>
+            <vs-th>金额</vs-th>
+            <vs-th>状态</vs-th>
+          </vs-tr>
+        </template>
+
+        <template #tbody>
+          <vs-tr
+            v-for="order in orderList"
+            :key="order.id"
+            :data="order"
+          >
+            <vs-td>{{ order.orderNo }}</vs-td>
+            <vs-td>{{ order.customer }}</vs-td>
+            <vs-td>{{ order.createdAt }}</vs-td>
+            <vs-td>{{ order.amount }}</vs-td>
+            <vs-td>{{ order.status }}</vs-td>
+
+            <template #expand>
+              <div>
+                <div>商品：{{ order.product }}</div>
+                <div>收货地址：{{ order.address }}</div>
+              </div>
+            </template>
+          </vs-tr>
+        </template>
+      </vs-table>
     </div>
 
     <div class="demo-section">
@@ -576,12 +694,16 @@
         </div>
       </template>
     </vs-info-dialog>
-  </div>
+    </div>
+  </vs-config-provider>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import VsTextarea from '@vuesax-alpha/components/textarea'
+import '@vuesax-alpha/components/textarea/style'
 import { VsConfirmDialog } from '@vuesax-alpha/components/confirm-dialog'
+import { VsConfigProvider } from '@vuesax-alpha/components/config-provider'
 import { VsEditDialog } from '@vuesax-alpha/components/edit-dialog'
 import { VsInfoDialog } from '@vuesax-alpha/components/info-dialog'
 import { VsLoadingFn } from '@vuesax-alpha/components/loading'
@@ -611,6 +733,19 @@ interface FormData {
   email: string
   position: string
 }
+
+interface OrderItem {
+  id: number
+  orderNo: string
+  customer: string
+  createdAt: string
+  amount: string
+  status: string
+  product: string
+  address: string
+}
+
+type DemoInputStyle = 'border' | 'soft'
 
 const modalConfigs: ModalConfig[] = [
   {
@@ -655,8 +790,11 @@ const currentConfig = ref<ModalConfig>(modalConfigs[0])
 const dialogLoading = ref(false)
 const loadingTarget = ref<HTMLElement>()
 const innerLoading = ref(false)
+const defaultInputStyle = ref<DemoInputStyle>('soft')
 
 // Select values
+const globalSelectValue = ref('')
+const localSoftSelectValue = ref('')
 const selectValue1 = ref('')
 const selectValue2 = ref('')
 const selectValue3 = ref<string[]>([])
@@ -665,6 +803,8 @@ const selectValue5 = ref('')
 const selectValue6 = ref('')
 
 // Input values
+const globalInputValue = ref('')
+const localBorderValue = ref('')
 const inputBorder = ref('')
 const inputShadow = ref('hello@vuesax.dev')
 const inputTransparent = ref('')
@@ -672,12 +812,47 @@ const inputSquare = ref('删除前请再次确认')
 const inputPassword = ref('')
 const inputLoading = ref('正在校验输入内容')
 const inputGraySoft = ref('')
+const multilineText = ref('第一行内容\n第二行内容\n第三行内容')
 
 const dateValue = ref('')
 const dateValueFixed = ref('')
 const dateValueNoTime = ref('')
 const rangeStart = ref('')
 const rangeEnd = ref('')
+
+const orderList = ref<OrderItem[]>([
+  {
+    id: 1,
+    orderNo: 'DD20260604001',
+    customer: '林青',
+    createdAt: '2026-06-04 10:24',
+    amount: '¥299.00',
+    status: '待发货',
+    product: '无线键盘',
+    address: '上海市浦东新区张江路 88 号',
+  },
+  {
+    id: 2,
+    orderNo: 'DD20260604002',
+    customer: '周屿',
+    createdAt: '2026-06-04 14:10',
+    amount: '¥128.00',
+    status: '已支付',
+    product: '桌面支架',
+    address: '杭州市西湖区文三路 156 号',
+  },
+  {
+    id: 3,
+    orderNo: 'DD20260604003',
+    customer: '许棠',
+    createdAt: '2026-06-03 18:42',
+    amount: '¥560.00',
+    status: '已完成',
+    product: '人体工学椅',
+    address: '深圳市南山区科技园南路 20 号',
+  },
+])
+const selectedMember = ref<OrderItem | null>(orderList.value[0] ?? null)
 
 // Edit Dialog
 const editDialogVisible = ref(false)
@@ -823,6 +998,13 @@ const handleInfoDialogConfirm = () => {
   text-align: center;
 }
 
+.style-switcher {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
 .select-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -865,23 +1047,6 @@ const handleInfoDialogConfirm = () => {
 .input-demo-card--dark {
   background: linear-gradient(135deg, #1e293b, #0f172a);
   border-color: #334155;
-}
-
-.input-soft-gray-no-focus {
-  .vs-input__affects {
-    display: none;
-  }
-
-  .vs-input__original {
-    border: none !important;
-    box-shadow: none !important;
-  }
-
-  .vs-input__original:focus,
-  .vs-input__original:hover:not(:focus) {
-    border-color: transparent !important;
-    box-shadow: none !important;
-  }
 }
 
 .demo-title {

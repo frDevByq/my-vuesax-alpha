@@ -1,0 +1,295 @@
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+
+$textareaState: 'success', 'danger', 'dark', 'primary', 'warn';
+
+@mixin textarea-state($color) {
+  @include e(label) {
+    color: getColor($color);
+  }
+
+  @include e(placeholder) {
+    color: getColor($color, 0.9);
+  }
+}
+
+@include b(textarea) {
+  @include set-var-value(color, getCssVar(primary));
+}
+
+@include b(textarea) {
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+
+  @each $state in $textareaState {
+    @include m(state-#{$state}) {
+      @include textarea-state($state);
+    }
+  }
+
+  @include when(block) {
+    width: 100%;
+
+    @include e(wrapper) {
+      width: 100%;
+    }
+  }
+
+  @include when(border) {
+    @include e(inner) {
+      background: transparent;
+      border-color: #d2d2d2;
+    }
+  }
+
+  @include when(shadow) {
+    @include e(wrapper) {
+      box-shadow: 0 10px 30px -18px rgba(15, 23, 42, 0.28);
+    }
+
+    @include e(inner) {
+      border-color: transparent;
+    }
+  }
+
+  @include when(transparent) {
+    @include e(inner) {
+      background: transparent !important;
+    }
+  }
+
+  @include when(soft) {
+    @include e(wrapper) {
+      background: #f3f4f6;
+    }
+
+    @include e(inner) {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+
+    @include e(label) {
+      background: #f3f4f6;
+    }
+
+    @include e(placeholder) {
+      @include m(float) {
+        background: #f3f4f6;
+      }
+
+      @include m(float-up) {
+        background: #f3f4f6;
+      }
+    }
+
+    @include e(footer) {
+      background: rgba(255, 255, 255, 0.76);
+      border-color: rgba(255, 255, 255, 0.8);
+    }
+
+    @include e(affects) {
+      display: none;
+    }
+  }
+
+  @include when(focus) {
+    @include e(wrapper) {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px -30px rgba(15, 23, 42, 0.38);
+    }
+
+    @include e(inner) {
+      border-color: getColor(color);
+    }
+
+    @include e(placeholder) {
+      @include m(float) {
+        transform: translateY(-95%);
+      }
+    }
+
+    @include e(affects) {
+      @include m(2) {
+        transform: scaleX(1);
+      }
+    }
+
+    &.is-soft {
+      @include e(wrapper) {
+        box-shadow: none;
+      }
+    }
+  }
+
+  @include when(hovering) {
+    @include e(inner) {
+      border-color: getColor(gray-4);
+    }
+  }
+
+  @include m(has-label) {
+    margin-top: 26px;
+  }
+
+  @include m(label-float-nospace) {
+    margin-top: 0;
+  }
+
+  @include e(wrapper) {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 18px;
+    transition: getCssVar(transition-ease);
+  }
+
+  @include e(inner) {
+    width: 100%;
+    min-height: 132px;
+    padding: 15px 16px;
+    border-radius: 18px;
+    border: 1px solid getColor(gray-3);
+    background: getColor(background);
+    color: getColor(text);
+    font-size: 14px;
+    line-height: 1.65;
+    transition: getCssVar(transition-ease);
+    outline: none;
+
+    &::placeholder {
+      color: getColor(text, 0.38);
+    }
+
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.45);
+      border: 3px solid transparent;
+      border-radius: 999px;
+      background-clip: content-box;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgba(100, 116, 139, 0.58);
+      border: 3px solid transparent;
+      background-clip: content-box;
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.5) transparent;
+  }
+
+  @include e(label) {
+    position: absolute;
+    left: 14px;
+    top: -10px;
+    padding: 0 6px;
+    background: getColor(background);
+    color: getColor(text, 0.6);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    z-index: 2;
+  }
+
+  @include e(placeholder) {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    color: getColor(text, 0.42);
+    font-size: 14px;
+    line-height: 1;
+    pointer-events: none;
+    transition: getCssVar(transition-ease);
+    z-index: 2;
+
+    @include m(float) {
+      top: -10px;
+      left: 14px;
+      padding: 0 6px;
+      background: getColor(background);
+      color: getColor(text, 0.62);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    @include m(nospace) {
+      top: 16px;
+      left: 16px;
+    }
+
+    @include m(hidden) {
+      &.#{$namespace}-textarea__placeholder--float {
+        top: -10px;
+        left: 14px;
+        opacity: 1;
+      }
+    }
+
+    @include m(float-up) {
+      top: -10px;
+      left: 14px;
+      padding: 0 6px;
+      background: getColor(background);
+      color: getColor(text, 0.62);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+  }
+
+  @include e(footer) {
+    align-self: flex-end;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 10px;
+    margin-top: -4px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid getColor(gray-3);
+    background: rgba(255, 255, 255, 0.96);
+    color: getColor(text, 0.56);
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  @include e(count) {
+    font-variant-numeric: tabular-nums;
+  }
+
+  @include e(affects) {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 1px;
+    height: 2px;
+    border-radius: 999px;
+    overflow: hidden;
+    pointer-events: none;
+
+    @include m(1) {
+      display: none;
+    }
+
+    @include m(2) {
+      width: 100%;
+      height: 100%;
+      background: getColor(color);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.3s ease;
+    }
+  }
+}

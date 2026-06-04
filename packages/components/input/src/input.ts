@@ -13,6 +13,13 @@ import type { EmitFn } from '@vuesax-alpha/utils'
 import type Input from './input.vue'
 
 export type InputValue = string | number | null | undefined
+export const inputStyleValues = [
+  'border',
+  'shadow',
+  'transparent',
+  'soft',
+] as const
+export type InputStyleType = (typeof inputStyleValues)[number]
 
 export const inputProps = buildProps({
   /**
@@ -48,12 +55,11 @@ export const inputProps = buildProps({
 
   /**
    * @description input style
-   * @enum `border` | `shadow` | `transparent`
+   * @enum `border` | `shadow` | `transparent` | `soft`
    */
   inputStyle: {
     type: String,
-    values: ['border', 'shadow', 'transparent'] as const,
-    default: 'border',
+    values: inputStyleValues,
   },
 
   /**

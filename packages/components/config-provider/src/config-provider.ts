@@ -6,6 +6,9 @@ import type { ExtractPropTypes } from 'vue'
 import type { Language } from '@vuesax-alpha/locale'
 import type { ColorProviderContext } from '@vuesax-alpha/constants'
 
+export const defaultInputStyleValues = ['border', 'soft'] as const
+export type DefaultInputStyle = (typeof defaultInputStyleValues)[number]
+
 export const configProviderProps = buildProps({
   /**
    * @description global Initial zIndex
@@ -28,6 +31,14 @@ export const configProviderProps = buildProps({
    */
   locale: {
     type: definePropType<Language>(Object),
+  },
+  /**
+   * @description global default input style for input/select
+   */
+  defaultInputStyle: {
+    type: String,
+    values: defaultInputStyleValues,
+    default: 'border',
   },
 } as const)
 

@@ -21,10 +21,14 @@
     :on-keydown="onKeydown"
     :teleported="teleported"
     :strategy="strategy"
-    :popper-class="[ns.e('content'), useVuesaxBaseComponent(color)]"
+    :popper-class="[
+      ns.e('content'),
+      useVuesaxBaseComponent(color),
+      ns.is(resolvedInputStyle),
+    ]"
     :popper-style="colorCssVar"
     :show-arrow="false"
-    :offset="0"
+    :offset="resolvedInputStyle === 'soft' ? 2 : 0"
     :process-before-open="processBeforeOpen"
     :process-before-close="processBeforeClose"
     @show="handleMenuEnter"
@@ -243,6 +247,7 @@ import VsPopper from '@vuesax-alpha/components/popper'
 import { ChevronDown } from '@vuesax-alpha/icons-vue'
 import {
   useColor,
+  useGlobalConfig,
   useNamespace,
   useVuesaxBaseComponent,
 } from '@vuesax-alpha/hooks'
@@ -265,6 +270,10 @@ const props = defineProps(selectProps)
 const emit = defineEmits(selectEmits)
 const ns = useNamespace('select')
 const slots = useSlots()
+const globalInputStyle = useGlobalConfig('defaultInputStyle', 'border')
+const resolvedInputStyle = computed(
+  () => props.inputStyle || globalInputStyle.value || 'border'
+)
 
 const states = useSelectStates(props)
 
@@ -378,7 +387,7 @@ const selectKls = computed(() => [
   ns.is(popperRef.value?.popperPlacement ?? 'bottom'),
   { [ns.m('has-label')]: props.label || hasLabelFloat.value },
   { [ns.m('label-float-nospace')]: hasLabelFloatNospace.value },
-  { [ns.is(props.inputStyle)]: !!props.inputStyle },
+  ns.is(resolvedInputStyle.value),
 ])
 
 const selectStyle = computed(() => [colorCssVar.value])

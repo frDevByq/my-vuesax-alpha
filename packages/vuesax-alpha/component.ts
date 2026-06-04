@@ -14,6 +14,7 @@ import { VsInfoDialog } from '@vuesax-alpha/components/info-dialog'
 import { VsInput } from '@vuesax-alpha/components/input'
 import { VsInputNumber } from '@vuesax-alpha/components/input-number'
 import { VsInnerLoading } from '@vuesax-alpha/components/inner-loading'
+import { VsTextarea } from '@vuesax-alpha/components/textarea'
 import {
   VsNavbar,
   VsNavbarGroup,
@@ -65,6 +66,7 @@ export default [
   VsInput,
   VsInputNumber,
   VsInnerLoading,
+  VsTextarea,
   VsOptionGroup,
   VsOption,
   VsNavbar,

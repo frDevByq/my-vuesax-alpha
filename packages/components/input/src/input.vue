@@ -127,6 +127,7 @@ import { VsCollapseTransition } from '@vuesax-alpha/components/collapse-transiti
 import {
   useColor,
   useDeprecated,
+  useGlobalConfig,
   useId,
   useNamespace,
   useProp,
@@ -206,6 +207,10 @@ useDeprecated(
 )
 
 const ns = useNamespace('input')
+const globalInputStyle = useGlobalConfig('defaultInputStyle', 'border')
+const resolvedInputStyle = computed(
+  () => props.inputStyle || globalInputStyle.value || 'border'
+)
 
 const inputId = props.id ?? useId()
 
@@ -241,7 +246,7 @@ const inputKls = computed(() => [
   vsBaseClasses,
   ns.b(),
   props.wrapClasses,
-  { [ns.is(props.inputStyle)]: !!props.inputStyle },
+  ns.is(resolvedInputStyle.value),
   ns.is('block', props.block),
   ns.is('focus', focused.value),
   ns.is('hovering', hovering.value),

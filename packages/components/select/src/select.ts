@@ -16,6 +16,14 @@ import type { SelectOptionValue, SelectValue } from './tokens'
 import type { ExtractPropTypes } from 'vue'
 import type Select from './select.vue'
 
+export const selectInputStyleValues = [
+  'border',
+  'shadow',
+  'transparent',
+  'soft',
+] as const
+export type SelectInputStyleType = (typeof selectInputStyleValues)[number]
+
 export const selectProps = buildProps({
   showAfter: {
     type: Number,
@@ -98,12 +106,11 @@ export const selectProps = buildProps({
   block: { type: Boolean },
   /**
    * @description select style
-   * @enum `border` | `shadow` | `transparent`
+   * @enum `border` | `shadow` | `transparent` | `soft`
    */
   inputStyle: {
     type: String,
-    values: ['border', 'shadow', 'transparent'] as const,
-    default: 'border',
+    values: selectInputStyleValues,
   },
   /**
    * @description hide scrollbar

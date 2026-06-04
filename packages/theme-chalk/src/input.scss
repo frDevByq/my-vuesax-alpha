@@ -105,6 +105,30 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
       background-color: transparent !important;
     }
   }
+  @include when(soft) {
+    @include e(wrapper) {
+      border-radius: 12px;
+      background: #f3f4f6;
+    }
+    @include e(original) {
+      background: #f3f4f6;
+      border-color: transparent;
+      box-shadow: none;
+      border-radius: 12px;
+
+      &:focus,
+      &:hover:not(:focus) {
+        border-color: transparent;
+        box-shadow: none;
+      }
+    }
+    @include e(icon) {
+      background: transparent !important;
+    }
+    @include e(affects) {
+      display: none;
+    }
+  }
   @include when(block) {
     width: 100%;
     @include e(wrapper) {
@@ -178,6 +202,11 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
     @include e(original) {
       background: getColor('background');
       padding-left: 13px;
+    }
+    &.#{$namespace}-input.is-soft {
+      @include e(original) {
+        background: #ebeef3;
+      }
     }
     @include e(icon) {
       color: getColor('text', 0.8);
@@ -379,6 +408,13 @@ input[class*='#{$namespace}'][type='search']::-webkit-search-results-decoration 
       &:hover {
         color: getColor('text');
         background: getColor('gray-2');
+      }
+    }
+    &.is-soft {
+      @include e(icon) {
+        &:hover {
+          background: rgba(255, 255, 255, 0.72);
+        }
       }
     }
     &.#{$namespace}-input--icon-after {
