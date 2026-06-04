@@ -1,6 +1,6 @@
 {
   "name": "@yqb-self/my-vuesax",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "A Component Library for Vue 3",
   "keywords": [
     "my-vuesax",
@@ -110,5 +110,5 @@
     "not ie 11",
     "not op_mini all"
   ],
-  "gitHead": "b2e58d4247ac1c9e48c52b2198392d482014bf8a"
+  "gitHead": "98a7730da0fe1a5832357764aaea7f62863ef4c6"
 }

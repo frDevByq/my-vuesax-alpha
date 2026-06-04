@@ -1,18 +1,67 @@
 import consola from 'consola'
 import chalk from 'chalk'
+import { readFile } from 'fs/promises'
+import path from 'path'
 import { errorAndExit, getWorkspacePackages } from '@vuesax-alpha/build-utils'
 import type { Project } from '@pnpm/find-workspace-packages'
+import pkg from '../packages/vuesax-alpha/package.json'
+
+function normalizeVersion(version: string) {
+  return version.startsWith('v') ? version.slice(1) : version
+}
+
+function bumpPatchVersion(version: string) {
+  const match = normalizeVersion(version).match(/^(\d+)\.(\d+)\.(\d+)(-.+)?$/)
+  if (!match) {
+    throw new Error(`Invalid version: ${version}`)
+  }
+
+  const [, major, minor, patch, suffix] = match
+  const nextPatch = Number.parseInt(patch, 10) + 1
+  return `${major}.${minor}.${nextPatch}${suffix ?? ''}`
+}
+
+async function resolveGitHead() {
+  const gitHeadFromEnv = process.env.GIT_HEAD?.trim()
+  if (gitHeadFromEnv) return gitHeadFromEnv
+
+  const gitDir = path.resolve(process.cwd(), '.git')
+  const headFile = await readFile(path.resolve(gitDir, 'HEAD'), 'utf8')
+  const head = headFile.trim()
+
+  if (!head.startsWith('ref: ')) {
+    return head
+  }
+
+  const ref = head.slice(5).trim()
+  const refPath = path.resolve(gitDir, ref)
+
+  try {
+    return (await readFile(refPath, 'utf8')).trim()
+  } catch {
+    const packedRefs = await readFile(path.resolve(gitDir, 'packed-refs'), 'utf8')
+    const packedRefLine = packedRefs
+      .split('\n')
+      .find((line) => line && !line.startsWith('#') && !line.startsWith('^') && line.endsWith(` ${ref}`))
+
+    if (!packedRefLine) {
+      throw new Error(`Cannot resolve git head from ref: ${ref}`)
+    }
+
+    return packedRefLine.split(' ')[0].trim()
+  }
+}
+
+function resolveTagVersion() {
+  const tagVersion = process.env.TAG_VERSION?.trim()
+  if (tagVersion) return normalizeVersion(tagVersion)
+
+  return bumpPatchVersion(pkg.version)
+}
 
 async function main() {
-  const tagVersion = process.env.TAG_VERSION
-  const gitHead = process.env.GIT_HEAD
-  if (!tagVersion || !gitHead) {
-    errorAndExit(
-      new Error(
-        'No tag version or git head were found, make sure that you set the environment variable $TAG_VERSION \n'
-      )
-    )
-  }
+  const tagVersion = resolveTagVersion()
+  const gitHead = await resolveGitHead()
 
   consola.log(chalk.cyan('Start updating version'))
   consola.log(chalk.cyan(`$TAG_VERSION: ${tagVersion}`))
